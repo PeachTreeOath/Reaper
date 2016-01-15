@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour
 
 	public void PlaceBlock (Block block, int row, int col)
 	{
-		board [row, col] = block;
+		board [row, col] = block; //Hi, it's me!
 	}
 
 	public void SetPlayerPosition (int row, int col)
