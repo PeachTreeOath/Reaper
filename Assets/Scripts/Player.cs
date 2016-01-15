@@ -17,27 +17,24 @@ public class Player : BoardObject
 		base.Update ();
 		if (!moving) {
 			int direction = 0; // L R U D
+			int destR = row;
+			int destC = col;
 			if (Input.GetAxis ("Horizontal") < 0) {
-				int dest = Mathf.Clamp (col - 1, 0, 7);
-				Move (row, dest);
+				destC = Mathf.Clamp (col - 1, 0, 6);
 				direction = 1;
 			} else if (Input.GetAxis ("Horizontal") > 0) {
-				int dest = Mathf.Clamp (col + 1, 0, 7);
-				Move (row, dest);
+				destC = Mathf.Clamp (col + 1, 0, 6);
 				direction = 2;
 			} else if (Input.GetAxis ("Vertical") < 0) {
-				int dest = Mathf.Clamp (row + 1, 0, 7);
-				Move (dest, col);
+				destR = Mathf.Clamp (row + 1, 0, 6);
 				direction = 3;
 			} else if (Input.GetAxis ("Vertical") > 0) {
-				int dest = Mathf.Clamp (row - 1, 0, 7);
-				Move (dest, col);
+				destR = Mathf.Clamp (row - 1, 0, 6);
 				direction = 4;
 			}
 			if (direction != 0) {
-				bool push = true;//mgr.CheckForBlock (destRow, destCol);
-				if (push) {
-					mgr.PushBlock (direction, destRow, destCol);
+				if (mgr.PushBlock (direction, destR, destC)) {
+					Move (destR, destC);
 				}
 			}
 		} 

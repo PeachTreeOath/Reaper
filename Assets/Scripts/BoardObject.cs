@@ -11,7 +11,7 @@ public class BoardObject : MonoBehaviour
 	;
 
 	public BoardType boardType;
-	public float speed = 5;
+	public float speed;
 	public int row;
 	public int col;
 	public int destRow;
@@ -24,8 +24,8 @@ public class BoardObject : MonoBehaviour
 	void Awake ()
 	{
 		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
-
-		SetBoardPosition ();
+		speed = mgr.moveSpeed;
+		SetDestToPos ();
 		transform.position = GetBoardPosition (row, col);
 	}
 
@@ -36,7 +36,7 @@ public class BoardObject : MonoBehaviour
 			transform.position = Vector2.Lerp (GetBoardPosition (row, col), GetBoardPosition (destRow, destCol), moveTime);
 			if (moveTime >= 1) {
 				moving = false;
-				SetBoardPosition ();
+				SetDestToPos ();
 			}
 		}
 	}
@@ -49,14 +49,22 @@ public class BoardObject : MonoBehaviour
 		moveTime = 0;
 	}
 
-	protected Vector2 GetBoardPosition (int row, int col)
+	public Vector2 GetBoardPosition (int row, int col)
 	{
 		float xPos = -4.5f + col * 1.5f;
 		float yPos = 4.5f - row * 1.5f;
 		return new Vector2 (xPos, yPos);
 	}
 
-	protected void SetBoardPosition ()
+	public void SetBoardPosition(int row, int col)
+	{
+		destRow = row;
+		destCol = col;
+		SetDestToPos ();
+		transform.position = GetBoardPosition (row, col);
+	}
+
+	protected virtual void SetDestToPos ()
 	{
 		row = destRow;
 		col = destCol;
