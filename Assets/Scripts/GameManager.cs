@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
 				Block block = board [i, j];
 				if (block != null) {
 					if (block.toDelete) {
-						GameObject.Destroy (block);
+						GameObject.Destroy (block.gameObject);
 					}
 				}
 			}
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		for (int i = 1; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			Block newBlock = board [row, col + i];
 			newBlock.toDelete = true;
 		}
@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 
-		for (int i = 1; i < length; i++) {
+		for (int i = 0; i < length; i++) {
 			Block newBlock = board [row + i, col];
 			newBlock.toDelete = true;
 		}
