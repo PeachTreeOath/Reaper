@@ -34,7 +34,8 @@ public class Player : BoardObject
 				destR = Mathf.Clamp (row - 1, 0, 6);
 				direction = 4;
 			}
-				animator.SetInteger ("Direction", direction);
+
+			animator.SetInteger ("Direction", direction);
 			bool jump_key = Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift);
 			bool pull_key = Input.GetKey (KeyCode.Tab);
 			//Debug.Log (string.Format("shift_down equals", shift_down)); 

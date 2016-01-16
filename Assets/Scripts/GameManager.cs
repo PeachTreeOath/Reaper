@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 		} else
 			return true; // direction keys aren't getting held down. 
 
-		if (startRow < 0 || startRow > 6 || startCol < 0 || startCol > 6) {
+		if (startRow == 0 || destRow == 6 || destCol == 0 || destCol == 6) {
 			return false;
 		}
 
@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
 		} else if (direction == 4) {
 			destRow = row - 1;
 		}
-		if (destRow < 0 || destRow > 6 || destCol < 0 || destCol > 6) {
+		if (destRow == 0 || destRow == 6 || destCol == 0 || destCol == 6) {
 			return false;
 		}
 		if (PushBlock (direction, destRow, destCol)) {
