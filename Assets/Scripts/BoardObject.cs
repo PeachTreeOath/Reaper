@@ -41,9 +41,10 @@ public class BoardObject : MonoBehaviour
 		}
 	}
 
-	public void Move(int row, int col)
+	public void Move (int row, int col)
 	{
-		if (row==destRow && col==destCol) return; 
+		if (row == destRow && col == destCol)
+			return; 
 		destRow = row;
 		destCol = col;
 		moving = true;
@@ -57,7 +58,7 @@ public class BoardObject : MonoBehaviour
 		return new Vector2 (xPos, yPos);
 	}
 
-	public void SetBoardPosition(int row, int col)
+	public void SetBoardPosition (int row, int col)
 	{
 		destRow = row;
 		destCol = col;

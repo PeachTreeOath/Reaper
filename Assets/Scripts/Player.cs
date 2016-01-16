@@ -36,40 +36,41 @@ public class Player : BoardObject
 			}
 
 			animator.SetInteger ("Direction", direction);
-			bool jump_key = Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift);
+			bool jump_key = Input.GetKey (KeyCode.RightShift) || Input.GetKey (KeyCode.LeftShift);
 			bool pull_key = Input.GetKey (KeyCode.Tab);
 			//Debug.Log (string.Format("shift_down equals", shift_down)); 
 			if (direction != 0) {
 
-				if (mgr.GetPlayerPosition(destR, destC) != null) return; //another player in your destination square
-
+				if (mgr.GetPlayerPosition (destR, destC) != null)
+					return; //another player in your destination square
 
 				if (jump_key) {
 					//jump on top of existing block.  Just move player. 
 					Move (destR, destC);
-					mgr.SetPlayerPosition(destR, destC, this); 
-					mgr.VacatePlayerPosition(row, col); 
+					mgr.SetPlayerPosition (destR, destC, this); 
+					mgr.VacatePlayerPosition (row, col); 
 
 				} else if (pull_key) {
 					//pulling -- when pulling, player moves first
 					Move (destR, destC);
-					mgr.SetPlayerPosition(destR, destC, this); 
-					mgr.VacatePlayerPosition(row, col); 
+					mgr.SetPlayerPosition (destR, destC, this); 
+					mgr.VacatePlayerPosition (row, col); 
 
 					//blocks move next to rol, col (where player was)
-					mgr.PullBlock(direction, row, col); 
+					mgr.PullBlock (direction, row, col); 
 
-				}else if (mgr.PushBlock (direction, destR, destC)) {  //recursive call allows you to move a row of blocks 
+				} else if (mgr.PushBlock (direction, destR, destC)) {  //recursive call allows you to move a row of blocks 
 					//when pushing, blocks move first
 					//player moves next
-						animator.SetBool ("Pushing", true);
+					animator.SetBool ("Pushing", true);
 					Move (destR, destC);
-					mgr.SetPlayerPosition(destR, destC, this); 
-					mgr.VacatePlayerPosition(row, col);
+					mgr.SetPlayerPosition (destR, destC, this); 
+					mgr.VacatePlayerPosition (row, col);
 
-					} else if (animator.GetBool ("Pushing")) {
-						animator.SetBool ("Pushing", false);
-					} else return; 
+				} else if (animator.GetBool ("Pushing")) {
+					animator.SetBool ("Pushing", false);
+				} else
+					return; 
 
 			}
 		} 

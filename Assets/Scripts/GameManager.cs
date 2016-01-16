@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
 	{
 		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
 		for (int i = 0; i < boardSize + 2; i++) {
-			for (int j=0; j< boardSize+2; j++) {
-				board[i,j]= new BoardSquare();
-				}
+			for (int j = 0; j < boardSize + 2; j++) {
+				board [i, j] = new BoardSquare ();
+			}
 		}
 	}
 
@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	//row and col are starting position, direction is the direction of movement
-	public bool PullBlock( int direction, int destRow, int destCol)
+	public bool PullBlock (int direction, int destRow, int destCol)
 	{
 
 		int startRow = destRow; 
@@ -217,11 +217,13 @@ public class GameManager : MonoBehaviour
 	{
 		board [row, col].player = player; 
 	}
-	public void VacatePlayerPosition(int row, int col)
+
+	public void VacatePlayerPosition (int row, int col)
 	{
 		board [row, col].player = null; 
 	}
-	public Player GetPlayerPosition(int row, int col)
+
+	public Player GetPlayerPosition (int row, int col)
 	{
 		return board [row, col].player; 
 	}
