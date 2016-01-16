@@ -43,6 +43,16 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	private void CreateBG()
+	{
+		GameObject bg = Resources.Load<GameObject> ("Images/bgSquare");
+		for (int i = 0; i < boardSize + 2; i++) {
+			for (int j = 0; j < boardSize + 2; j++) {
+				Instantiate (bg, Vector2.zero, Quaternion.identity);
+			}
+		}
+	}
+
 	public bool CheckForBlock (int row, int col) //TODO is this necessary?
 	{
 		if (board [row, col].block != null) {
