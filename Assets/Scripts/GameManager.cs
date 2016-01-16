@@ -139,6 +139,14 @@ public class GameManager : MonoBehaviour
 			block.Move (destRow, destCol);
 			board [destRow, destCol].block = block;
 			board [row, col].block = null;
+
+			if (board [row, col].player != null) {
+				//there's a player on the block, move him too
+				board[row,col].player.Move (destRow, destCol); 
+				SetPlayerPosition (destRow, destCol, board[row,col].player); 
+				VacatePlayerPosition (row, col);
+			}
+
 			return true;
 		}
 		return false;
@@ -266,7 +274,7 @@ public class GameManager : MonoBehaviour
 		board [row, col].player = null; 
 	}
 
-	public Player GetPlayerPosition (int row, int col)
+	public Player GetPlayerInPosition (int row, int col)
 	{
 		return board [row, col].player; 
 	}

@@ -43,8 +43,9 @@ public class Player : BoardObject
 			//Debug.Log (string.Format("shift_down equals", shift_down)); 
 			if (direction != 0) {
 
-				if (mgr.GetPlayerPosition (destR, destC) != null)
-					return; //another player in your destination square
+				if ((mgr.GetPlayerInPosition (destR, destC) != null) && 
+					(mgr.CheckForBlock(destR, destC) == false)) 
+					return; //another player in your destination square, and no block underneath them
 
 				if (jump_key) {
 					//jump on top of existing block.  Just move player. 
