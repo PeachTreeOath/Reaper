@@ -32,9 +32,20 @@ public class Player : BoardObject
 				destR = Mathf.Clamp (row - 1, 0, 6);
 				direction = 4;
 			}
+
+			bool shift_down = false; 
+			shift_down = Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftShift);
+			Debug.Log (string.Format("shift_down equals", shift_down)); 
 			if (direction != 0) {
-				if (mgr.PushBlock (direction, destR, destC)) {
+				
+				if (shift_down) {
+					Move(destR, destC);
+					mgr.SetPlayerLocation(destR, destC); 	
+					mgr.VacatePlayerLocation(row, col);
+				} else if (mgr.PushBlock (direction, destR, destC)) {
 					Move (destR, destC);
+					mgr.SetPlayerLocation(destR, destC); 
+					mgr.VacatePlayerLocation(row, col); 
 				}
 			}
 		} 
