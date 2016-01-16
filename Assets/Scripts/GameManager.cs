@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
 	void Awake ()
 	{
 		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
+		for (int i = 0; i < boardSize + 2; i++) {
+			for (int j=0; j< boardSize+2; j++) {
+				board[i,j]= new BoardSquare();
+				}
+		}
 	}
 
 	void Start ()
@@ -171,16 +176,17 @@ public class GameManager : MonoBehaviour
 		board [row, col].block = block; //Hi, it's me!
 	}
 
-	public void SetPlayerPosition (int row, int col)
+	public void SetPlayerPosition (int row, int col, Player player)
 	{
-		board [row, col].playerOccupied = true; 
+		board [row, col].player = player; 
 	}
 	public void VacatePlayerPosition(int row, int col)
 	{
-		board [row, col].playerOccupied = false; 
+		board [row, col].player = null; 
 	}
-	public bool GetPlayerPosition(int row, int col)
+	public Player GetPlayerPosition(int row, int col)
 	{
-		return board [row, col].playerOccupied; 
+		return board [row, col].player; 
 	}
 }
+				

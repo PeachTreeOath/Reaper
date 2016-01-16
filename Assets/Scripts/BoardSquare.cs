@@ -4,12 +4,13 @@ using System.Collections;
 public class BoardSquare : MonoBehaviour {
 
 	public Block block; 
-	public bool playerOccupied; 
+	public Player player; 
 
 
 	// Use this for initialization
 	void Start () {
-		playerOccupied = false; 
+		block = null;
+		player = null;
 	}
 	
 	// Update is called once per frame

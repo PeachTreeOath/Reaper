@@ -40,11 +40,11 @@ public class Player : BoardObject
 				
 				if (shift_down) {
 					Move(destR, destC);
-					mgr.SetPlayerPosition(destR, destC); 	
+					mgr.SetPlayerPosition(destR, destC, this); 	
 					mgr.VacatePlayerPosition(row, col);
 				} else if (mgr.PushBlock (direction, destR, destC)) {
 					Move (destR, destC);
-					mgr.SetPlayerPosition(destR, destC); 
+					mgr.SetPlayerPosition(destR, destC, this); 
 					mgr.VacatePlayerPosition(row, col); 
 				}
 			}
