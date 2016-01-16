@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 
 	public float spawnSpeed = 3;
 	public float moveSpeed = 3;
-	public int boardSize = 5;
+	public int boardSize = 7;
 	// ONLY use odd numbered board sizes, game is only meant for sizes 5,7,9!
 	private BoardSquare[,] board;
 	private float lastSpawnTime;
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < boardSize * 2; i++) {
 			SpawnBlock ();
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			SpawnBotPlayer ();
 		}
 
@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 		} else
 			return true; // direction keys aren't getting held down. 
 
-		if (startRow == 0 || destRow == (boardSize + 1) || destCol == 0 || destCol == (boardSize + 1)) {
+		if (startRow == 0 || destRow >= (boardSize + 1) || destCol == 0 || destCol >= (boardSize + 1)) {
 			return false;
 		}
 
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
 		} else if (direction == 4) {
 			destRow = row - 1;
 		}
-		if (destRow == 0 || destRow == (boardSize + 1) || destCol == 0 || destCol == (boardSize + 1)) {
+		if (destRow == 0 || destRow >= (boardSize + 1) || destCol == 0 || destCol >= (boardSize + 1)) {
 			return false;
 		}
 		if (PushBlock (direction, destRow, destCol)) {

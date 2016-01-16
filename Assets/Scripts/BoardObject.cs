@@ -53,8 +53,12 @@ public class BoardObject : MonoBehaviour
 
 	public Vector2 GetBoardPosition (int row, int col)
 	{
-		float xPos = -4.5f + col * 1.5f;
-		float yPos = 4.5f - row * 1.5f;
+
+		float x_offset = ((mgr.boardSize + 2) / 2) * -1.5f; //int division deletes the remainder
+		float y_offset = ((mgr.boardSize + 2) / 2) * 1.5f;
+
+		float xPos = x_offset + col * 1.5f;
+		float yPos = y_offset - row * 1.5f;
 		return new Vector2 (xPos, yPos);
 	}
 

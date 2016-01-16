@@ -22,16 +22,16 @@ public class Player : BoardObject
 			int destR = row;
 			int destC = col;
 			if (Input.GetAxis ("Horizontal") < 0) {
-				destC = Mathf.Clamp (col - 1, 0, 6);
+				destC = Mathf.Clamp (col - 1, 0, mgr.boardSize+1);
 				direction = 1;
 			} else if (Input.GetAxis ("Horizontal") > 0) {
-				destC = Mathf.Clamp (col + 1, 0, 6);
+				destC = Mathf.Clamp (col + 1, 0, mgr.boardSize+1);
 				direction = 2;
 			} else if (Input.GetAxis ("Vertical") < 0) {
-				destR = Mathf.Clamp (row + 1, 0, 6);
+				destR = Mathf.Clamp (row + 1, 0, mgr.boardSize+1);
 				direction = 3;
 			} else if (Input.GetAxis ("Vertical") > 0) {
-				destR = Mathf.Clamp (row - 1, 0, 6);
+				destR = Mathf.Clamp (row - 1, 0, mgr.boardSize+1);
 				direction = 4;
 			}else {
 					animator.SetBool ("Pushing", false);
