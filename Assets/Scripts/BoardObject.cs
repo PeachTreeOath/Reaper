@@ -43,6 +43,7 @@ public class BoardObject : MonoBehaviour
 
 	public void Move(int row, int col)
 	{
+		if (row==destRow && col==destCol) return; 
 		destRow = row;
 		destCol = col;
 		moving = true;

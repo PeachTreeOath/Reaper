@@ -49,6 +49,42 @@ public class GameManager : MonoBehaviour
 		return false;
 	}
 
+	//row and col are starting position, direction is the direction of movement
+	public bool PullBlock( int direction, int destRow, int destCol)
+	{
+
+		int startRow = destRow; 
+		int startCol = destCol; 
+
+		//1234 is LRUD
+		if (direction == 1) {
+			startCol = destCol + 1;	
+		} else if (direction == 2) {
+			startCol = destCol - 1;	
+		} else if (direction == 3) {
+			startRow = destRow - 1;
+		} else if (direction == 4) {
+			startRow = destRow + 1;
+		} else
+			return true; // direction keys aren't getting held down. 
+
+		Debug.Log ("start row equals" + startRow);
+		Debug.Log ("start col equals" + startCol); 
+
+		Block block = board [startRow, startCol].block; 
+		if (block == null)
+			return true;
+		else if (board [destRow, destCol].player != null)
+			return false; //player already there
+		else if (board [destRow, destCol].block != null)
+			return false; //block already there
+		
+		block.Move (destRow, destCol);
+		board [destRow, destCol].block = block;
+		board [startRow, startCol].block = null;
+		return true;
+	}
+
 	public bool PushBlock (int direction, int row, int col)
 	{
 		Block block = board [row, col].block;
