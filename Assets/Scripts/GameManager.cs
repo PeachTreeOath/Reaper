@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
 
 	public bool CheckForBlock (int row, int col) //TODO is this necessary?
 	{
-		if (board [row, col].block.boardType == BoardObject.BoardType.BLOCK) {
+		if (board [row, col].block != null) {
 			return true;
 		}
 

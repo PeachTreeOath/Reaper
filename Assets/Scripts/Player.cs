@@ -62,17 +62,23 @@ public class Player : BoardObject
 					//blocks move next to rol, col (where player was)
 					mgr.PullBlock (direction, row, col); 
 
-				} else if (mgr.PushBlock (direction, destR, destC)) {  //recursive call allows you to move a row of blocks 
-					//when pushing, blocks move first
-					//player moves next
+				} else if (mgr.CheckForBlock (destR, destC)) {
+					//push if block is in the way
 					animator.SetBool ("Pushing", true);
+					if (mgr.PushBlock (direction, destR, destC)) {  //recursive call allows you to move a row of blocks 
+						//when pushing, blocks move first
+						//player moves next
+						Move (destR, destC);
+						mgr.SetPlayerPosition (destR, destC, this); 
+						mgr.VacatePlayerPosition (row, col);
+					}
+				} else {
+					//pure movement 
 					Move (destR, destC);
 					mgr.SetPlayerPosition (destR, destC, this); 
 					mgr.VacatePlayerPosition (row, col);
-
-				}  else
 					return; 
-
+				}
 			}
 		} 
 	}
