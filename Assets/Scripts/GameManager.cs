@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	// ONLY use odd numbered board sizes, game is only meant for sizes 5,7,9!
 	private BoardSquare[,] board;
 	private float lastSpawnTime;
+	private GameObject boardParent;
 
 	// Use this for initialization
 	void Awake ()
