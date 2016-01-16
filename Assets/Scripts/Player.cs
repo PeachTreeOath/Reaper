@@ -33,7 +33,9 @@ public class Player : BoardObject
 			} else if (Input.GetAxis ("Vertical") > 0) {
 				destR = Mathf.Clamp (row - 1, 0, 6);
 				direction = 4;
-			}
+			}else {
+					animator.SetBool ("Pushing", false);
+				}
 
 			animator.SetInteger ("Direction", direction);
 			bool jump_key = Input.GetKey (KeyCode.RightShift) || Input.GetKey (KeyCode.LeftShift);
@@ -52,6 +54,7 @@ public class Player : BoardObject
 
 				} else if (pull_key) {
 					//pulling -- when pulling, player moves first
+					animator.SetBool ("Pulling", true);
 					Move (destR, destC);
 					mgr.SetPlayerPosition (destR, destC, this); 
 					mgr.VacatePlayerPosition (row, col); 
@@ -67,9 +70,7 @@ public class Player : BoardObject
 					mgr.SetPlayerPosition (destR, destC, this); 
 					mgr.VacatePlayerPosition (row, col);
 
-				} else if (animator.GetBool ("Pushing")) {
-					animator.SetBool ("Pushing", false);
-				} else
+				}  else
 					return; 
 
 			}
