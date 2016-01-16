@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoardSquare : MonoBehaviour {
+public class BoardSquare  {
 
 	public Block block; 
 	public Player player; 
