@@ -25,10 +25,9 @@ public class GameManager : MonoBehaviour
 	{
 		lastSpawnTime = Time.time;
 		//TODO delete
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < boardSize*2; i++) {
 			SpawnBlock ();
 		}
-
 		for (int i = 0; i < 4; i++) {
 			SpawnBotPlayer ();
 		}
@@ -216,14 +215,13 @@ public class GameManager : MonoBehaviour
 	private void SpawnBotPlayer ()
 	{
 		while (true) {
-			int row = Random.Range (1, boardSize);
-			int col = Random.Range (1, boardSize);
+			int row = Random.Range (0, boardSize+1);
+			int col = Random.Range (0, boardSize+1);
 			if (board [row, col].player == null) {
 				GameObject playerObj = Resources.Load<GameObject> ("Prefabs/Player"); 
 				Player player = ((GameObject)Instantiate (playerObj, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
+				player.SetBoardPosition (row, col); 	
 				board [row, col].player = player;
-
-
 				break;
 			}
 		}
