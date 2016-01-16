@@ -221,7 +221,7 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].player == null) {
 				GameObject playerObj = Resources.Load<GameObject> ("Prefabs/Player"); 
 				Player player = ((GameObject)Instantiate (playerObj, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
-				board [row, col].player = playerObj;
+				board [row, col].player = player;
 
 
 				break;
