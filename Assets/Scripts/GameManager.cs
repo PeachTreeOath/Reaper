@@ -25,8 +25,12 @@ public class GameManager : MonoBehaviour
 	{
 		lastSpawnTime = Time.time;
 		//TODO delete
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 20; i++) {
 			SpawnBlock ();
+		}
+
+		for (int i = 0; i < 4; i++) {
+			SpawnBotPlayer ();
 		}
 
 	}
@@ -68,7 +72,7 @@ public class GameManager : MonoBehaviour
 		} else
 			return true; // direction keys aren't getting held down. 
 
-		if (startRow == 0 || destRow == 6 || destCol == 0 || destCol == 6) {
+		if (startRow == 0 || destRow == (boardSize + 1) || destCol == 0 || destCol == (boardSize + 1)) {
 			return false;
 		}
 
@@ -105,7 +109,7 @@ public class GameManager : MonoBehaviour
 		} else if (direction == 4) {
 			destRow = row - 1;
 		}
-		if (destRow == 0 || destRow == 6 || destCol == 0 || destCol == 6) {
+		if (destRow == 0 || destRow == (boardSize + 1) || destCol == 0 || destCol == (boardSize + 1)) {
 			return false;
 		}
 		if (PushBlock (direction, destRow, destCol)) {
@@ -196,13 +200,30 @@ public class GameManager : MonoBehaviour
 	private void SpawnBlock ()
 	{
 		while (true) { //TODO better exit stmt
-			int row = Random.Range (1, 6);
-			int col = Random.Range (1, 6);
+			int row = Random.Range (1, boardSize);
+			int col = Random.Range (1, boardSize);
+
 			if (board [row, col].block == null) {
 				GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
 				Block block = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
 				block.SetBoardPosition (row, col);
 				PlaceBlock (block, row, col);
+				break;
+			}
+		}
+	}
+
+	private void SpawnBotPlayer ()
+	{
+		while (true) {
+			int row = Random.Range (1, boardSize);
+			int col = Random.Range (1, boardSize);
+			if (board [row, col].player == null) {
+				GameObject playerObj = Resources.Load<GameObject> ("Prefabs/Player"); 
+				Player player = ((GameObject)Instantiate (playerObj, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
+				board [row, col].player = playerObj;
+
+
 				break;
 			}
 		}
