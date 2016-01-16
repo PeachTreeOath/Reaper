@@ -68,9 +68,6 @@ public class GameManager : MonoBehaviour
 		} else
 			return true; // direction keys aren't getting held down. 
 
-		Debug.Log ("start row equals" + startRow);
-		Debug.Log ("start col equals" + startCol); 
-
 		Block block = board [startRow, startCol].block; 
 		if (block == null)
 			return true;
@@ -104,7 +101,7 @@ public class GameManager : MonoBehaviour
 		} else if (direction == 4) {
 			destRow = row - 1;
 		}
-		if (destRow == 0 || destRow == 6 || destCol == 0 || destCol == 6) {
+		if (destRow < 0 || destRow > 6 || destCol < 0 || destCol > 6) {
 			return false;
 		}
 		if (PushBlock (direction, destRow, destCol)) {
