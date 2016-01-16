@@ -68,6 +68,10 @@ public class GameManager : MonoBehaviour
 		} else
 			return true; // direction keys aren't getting held down. 
 
+		if (startRow < 0 || startRow > 6 || startCol < 0 || startCol > 6) {
+			return false;
+		}
+
 		Block block = board [startRow, startCol].block; 
 		if (block == null)
 			return true;
