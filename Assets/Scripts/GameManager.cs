@@ -111,6 +111,12 @@ public class GameManager : MonoBehaviour
 		block.Move (destRow, destCol);
 		board [destRow, destCol].block = block;
 		board [startRow, startCol].block = null;
+
+		if (board [startRow, startCol].player != null) {//player on top of block, move player too
+			board [startRow, startCol].player.Move (destRow, destCol); 
+			SetPlayerPosition (destRow, destCol, board [destRow, destCol].player); 
+			VacatePlayerPosition (startRow, startCol);
+		}
 		return true;
 	}
 
