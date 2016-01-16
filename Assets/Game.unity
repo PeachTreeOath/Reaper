@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 582255439}
   m_Layer: 0
-  m_Name: Board
+  m_Name: BoardObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,7 +197,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &678532402
 GameObject:
   m_ObjectHideFlags: 0

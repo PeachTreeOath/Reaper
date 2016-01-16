@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
 		if (boardSize > 5) {
 			GameObject.Find ("Main Camera").GetComponent<Camera>().orthographicSize += boardSize - 5;
 		}
-
+		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
 		//TODO delete
 		for (int i = 0; i < boardSize * 2; i++) {
@@ -238,6 +238,7 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null) {
 				GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
 				Block block = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
+				block.transform.parent = boardParent.transform;
 				block.SetBoardPosition (row, col);
 				PlaceBlock (block, row, col);
 				break;
@@ -253,6 +254,7 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].player == null) {
 				GameObject playerObj = Resources.Load<GameObject> ("Prefabs/Player"); 
 				Player player = ((GameObject)Instantiate (playerObj, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
+				player.transform.parent = boardParent.transform;
 				player.SetBoardPosition (row, col); 	
 				board [row, col].player = player;
 				break;
