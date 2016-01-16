@@ -7,14 +7,13 @@ public class GameManager : MonoBehaviour
 	public float spawnSpeed = 3;
 	public float moveSpeed = 3;
 	public int boardSize = 5;
-	private Block[,] board;
+	private BoardSquare[,] board;
 	private float lastSpawnTime;
 
 	// Use this for initialization
 	void Awake ()
 	{
-		board = new Block[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
-		Debug.Log (board);
+		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
 	}
 
 	void Start ()
@@ -38,7 +37,7 @@ public class GameManager : MonoBehaviour
 
 	public bool CheckForBlock (int row, int col) //TODO is this necessary?
 	{
-		if (board [row, col].boardType == BoardObject.BoardType.BLOCK) {
+		if (board [row, col].block.boardType == BoardObject.BoardType.BLOCK) {
 			return true;
 		}
 
@@ -47,7 +46,7 @@ public class GameManager : MonoBehaviour
 
 	public bool PushBlock (int direction, int row, int col)
 	{
-		Block block = board [row, col];
+		Block block = board [row, col].block;
 		if (block == null) {
 			return true;
 		}
@@ -69,8 +68,8 @@ public class GameManager : MonoBehaviour
 		}
 		if (PushBlock (direction, destRow, destCol)) {
 			block.Move (destRow, destCol);
-			board [destRow, destCol] = block;
-			board [row, col] = null;
+			board [destRow, destCol].block = block;
+			board [row, col].block = null;
 			return true;
 		}
 		return false;
@@ -100,7 +99,7 @@ public class GameManager : MonoBehaviour
 	{
 		for (int i = 1; i < boardSize + 1; i++) {
 			for (int j = 1; j < boardSize + 1; j++) {	
-				Block block = board [i, j];
+				Block block = board [i, j].block;
 				if (block != null) {
 					if (block.toDelete) {
 						GameObject.Destroy (block.gameObject);
@@ -116,17 +115,17 @@ public class GameManager : MonoBehaviour
 			if (col + i > boardSize) {
 				return;
 			}
-			Block newBlock = board [row, col + i];
-			if (board [row, col] == null || newBlock == null) {
+			Block newBlock = board [row, col + i].block;
+			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if (board [row, col].color != newBlock.color) {
+			if (board [row, col].block.color != newBlock.color) {
 				return;
 			}
 		}
 
 		for (int i = 0; i < length; i++) {
-			Block newBlock = board [row, col + i];
+			Block newBlock = board [row, col + i].block;
 			newBlock.toDelete = true;
 		}
 	}
@@ -137,17 +136,17 @@ public class GameManager : MonoBehaviour
 			if (row + i > boardSize) {
 				return;
 			}
-			Block newBlock = board [row + i, col];
-			if (board [row, col] == null || newBlock == null) {
+			Block newBlock = board [row + i, col].block;
+			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if (board [row, col].color != newBlock.color) {
+			if (board [row, col].block.color != newBlock.color) {
 				return;
 			}
 		}
 
 		for (int i = 0; i < length; i++) {
-			Block newBlock = board [row + i, col];
+			Block newBlock = board [row + i, col].block;
 			newBlock.toDelete = true;
 		}
 	}
@@ -157,7 +156,7 @@ public class GameManager : MonoBehaviour
 		while (true) { //TODO better exit stmt
 			int row = Random.Range (1, 6);
 			int col = Random.Range (1, 6);
-			if (board [row, col] == null) {
+			if (board [row, col].block == null) {
 				GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
 				Block block = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
 				block.SetBoardPosition (row, col);
@@ -169,11 +168,19 @@ public class GameManager : MonoBehaviour
 
 	public void PlaceBlock (Block block, int row, int col)
 	{
-		board [row, col] = block; //Hi, it's me!
+		board [row, col].block = block; //Hi, it's me!
 	}
 
 	public void SetPlayerPosition (int row, int col)
 	{
-
+		board [row, col].playerOccupied = true; 
+	}
+	public void VacatePlayerPosition(int row, int col)
+	{
+		board [row, col].playerOccupied = false; 
+	}
+	public bool GetPlayerPosition(int row, int col)
+	{
+		return board [row, col].playerOccupied; 
 	}
 }
