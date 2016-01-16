@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 	public float spawnSpeed = 3;
 	public float moveSpeed = 3;
 	public int boardSize = 5;
+	// ONLY use odd numbered board sizes, game is only meant for sizes 5,7,9!
 	private BoardSquare[,] board;
 	private float lastSpawnTime;
 
@@ -23,9 +24,14 @@ public class GameManager : MonoBehaviour
 
 	void Start ()
 	{
+		CreateBG ();
+		if (boardSize > 5) {
+			GameObject.Find ("Main Camera").GetComponent<Camera>().orthographicSize += boardSize - 5;
+		}
+
 		lastSpawnTime = Time.time;
 		//TODO delete
-		for (int i = 0; i < boardSize*2; i++) {
+		for (int i = 0; i < boardSize * 2; i++) {
 			SpawnBlock ();
 		}
 		for (int i = 0; i < 4; i++) {
@@ -43,13 +49,22 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void CreateBG()
+	private void CreateBG ()
 	{
-		GameObject bg = Resources.Load<GameObject> ("Images/bgSquare");
+		GameObject bgPrefab = Resources.Load<GameObject> ("Prefabs/BGSquare");
+		GameObject parent = GameObject.Find ("Background");
+		float origCurrX = ((boardSize + 2) / 2) * -1.5f;
+		float currX = origCurrX;
+		float currY = origCurrX;
 		for (int i = 0; i < boardSize + 2; i++) {
+			currY = origCurrX;
 			for (int j = 0; j < boardSize + 2; j++) {
-				Instantiate (bg, Vector2.zero, Quaternion.identity);
+				GameObject bg = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity));
+				bg.transform.position = new Vector2 (currX, currY);
+				bg.transform.parent = parent.transform;
+				currY += 1.5f;
 			}
+			currX += 1.5f;
 		}
 	}
 
@@ -65,7 +80,6 @@ public class GameManager : MonoBehaviour
 	//row and col are starting position, direction is the direction of movement
 	public bool PullBlock (int direction, int destRow, int destCol)
 	{
-
 		int startRow = destRow; 
 		int startCol = destCol; 
 
@@ -225,8 +239,8 @@ public class GameManager : MonoBehaviour
 	private void SpawnBotPlayer ()
 	{
 		while (true) {
-			int row = Random.Range (0, boardSize+1);
-			int col = Random.Range (0, boardSize+1);
+			int row = Random.Range (0, boardSize + 1);
+			int col = Random.Range (0, boardSize + 1);
 			if (board [row, col].player == null) {
 				GameObject playerObj = Resources.Load<GameObject> ("Prefabs/Player"); 
 				Player player = ((GameObject)Instantiate (playerObj, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
