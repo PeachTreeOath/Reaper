@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < boardSize + 2; i++) {
 			for (int j = 0; j < boardSize + 2; j++) {
 				board [i, j] = new BoardSquare ();
+
 			}
 		}
 	}
@@ -142,20 +143,21 @@ public class GameManager : MonoBehaviour
 		if (destRow == 0 || destRow >= (boardSize + 1) || destCol == 0 || destCol >= (boardSize + 1)) {
 			return false;
 		}
+
 		if (PushBlock (direction, destRow, destCol)) {
+
 			block.Move (destRow, destCol);
 			board [destRow, destCol].block = block;
 			board [row, col].block = null;
 
 			if (board [row, col].player != null) {
 				//there's a player on the block, move him too
-				board[row,col].player.Move (destRow, destCol); 
-				SetPlayerPosition (destRow, destCol, board[row,col].player); 
+				board [row, col].player.Move (destRow, destCol); 
+				SetPlayerPosition (destRow, destCol, board [row, col].player); 
 				VacatePlayerPosition (row, col);
 			}
-
 			return true;
-		}
+		} 
 		return false;
 	}
 
@@ -195,6 +197,10 @@ public class GameManager : MonoBehaviour
 
 	private void MatchH (int row, int col, int length)
 	{
+
+		bool matchColor = true;
+		bool matchShape = true;
+
 		for (int i = 1; i < length; i++) {
 			if (col + i > boardSize) {
 				return;
@@ -203,14 +209,17 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) && (board[row,col].block.shape != newBlock.shape)) {
-				return;
-			}
+			if (board [row, col].block.color != newBlock.color) 
+				matchColor = false; 
+			if (board[row,col].block.shape != newBlock.shape)
+				matchShape = false;
 		}
 
-		for (int i = 0; i < length; i++) {
-			Block newBlock = board [row, col + i].block;
-			newBlock.toDelete = true;
+		if (matchShape || matchColor) {
+			for (int i = 0; i < length; i++) {
+				Block newBlock = board [row, col + i].block;
+				newBlock.toDelete = true;
+			}
 		}
 	}
 
@@ -287,6 +296,10 @@ public class GameManager : MonoBehaviour
 	public Player GetPlayerInPosition (int row, int col)
 	{
 		return board [row, col].player; 
+	}
+	public Block GetBlockInPosition (int row, int col)
+	{
+		return board [row, col].block; 
 	}
 }
 				

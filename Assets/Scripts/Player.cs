@@ -5,7 +5,7 @@ public class Player : BoardObject
 {
 
 	private Animator animator;
-	public bool isBot; 
+	public bool isBot;
 
 	// Use this for initialization
 	void Start ()
@@ -49,8 +49,8 @@ public class Player : BoardObject
 				pull_key = Input.GetKey (KeyCode.Tab);
 			} else {
 				direction = Random.Range (0, 11);
-				jump_key = Random.Range (0, 1)==1; //since c# can't make int to bool	
-				pull_key = Random.Range (0, 1) ==1 ;
+				jump_key = Random.Range (0, 1) == 1; //since c# can't make int to bool	
+				pull_key = Random.Range (0, 1) == 1;
 
 				if (direction == 1) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
@@ -64,13 +64,17 @@ public class Player : BoardObject
 			}
 
 
-			if (direction >= 1 && direction <=4) {
+			if (direction >= 1 && direction <= 4) {
 
-				if ((mgr.GetPlayerInPosition (destR, destC) != null) && 
-					(mgr.CheckForBlock(destR, destC) == false)) 
+				//Debug.Log("player in dest position " + (mgr.GetPlayerInPosition(destR, destC)!= null));
+				//Debug.Log ("block in dest position " + (mgr.GetBlockInPosition (destR, destC) != null));
+					
+
+				if ((mgr.GetPlayerInPosition (destR, destC) != null) &&
+				    (mgr.CheckForBlock (destR, destC) == false)) {
 					return; //another player in your destination square, and no block underneath them
 
-				if (jump_key) {
+				} else if (jump_key) {
 					//jump on top of existing block.  Just move player. 
 					Move (destR, destC);
 					mgr.SetPlayerPosition (destR, destC, this); 
@@ -86,15 +90,21 @@ public class Player : BoardObject
 					//blocks move next to rol, col (where player was)
 					mgr.PullBlock (direction, row, col); 
 
-				} else if (mgr.CheckForBlock (destR, destC)) {
-					//push if block is in the way
+				} else if (mgr.CheckForBlock (destR, destC))
+				{
 					animator.SetBool ("Pushing", true);
-					if (mgr.PushBlock (direction, destR, destC)) {  //recursive call allows you to move a row of blocks 
-						//when pushing, blocks move first
-						//player moves next
+					if (mgr.PushBlock (direction, destR, destC) || //recursive call allows you to move a row of blocks 
+						//when pushing, blocks moves first, player moves next
+						((mgr.GetBlockInPosition (row, col) != null) &&
+							(mgr.GetPlayerInPosition (destR, destC) == null) &&
+							(mgr.GetBlockInPosition (destR, destC) != null)))
+ 					{	  /* ((mgr.GetBlockInPosition (row, col) != null) &&
+					    (mgr.GetPlayerInPosition (destRow, destCol) == null) &&
+					    (mgr.GetBlockInPosition (destRow, destCol) != null)))*/
+						// or both current position and dest position is on a block, and no player on the dest block
 						Move (destR, destC);
 						mgr.SetPlayerPosition (destR, destC, this); 
-						mgr.VacatePlayerPosition (row, col);
+						mgr.VacatePlayerPosition (row, col); 
 					}
 				} else {
 					//pure movement 
