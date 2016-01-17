@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) || (board[row,col].block.shape != newBlock.shape)) {
+			if ((board [row, col].block.color != newBlock.color) && (board[row,col].block.shape != newBlock.shape)) {
 				return;
 			}
 		}
@@ -225,7 +225,7 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) || (board[row,col].block.shape != newBlock.shape)) {
+			if ((board [row, col].block.color != newBlock.color) && (board[row,col].block.shape != newBlock.shape)) {
 				return;
 			}
 		}
