@@ -24,46 +24,61 @@ public class Block : BoardObject
 
 	private void SetBlockProperties ()
 	{
-		SpriteRenderer sprite = GetComponent<SpriteRenderer> ();
+		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
 		//int newColor = Random.Range (0, 6);
 		int newColor = Random.Range (0, 4);
-		int newShape = Random.Range (0, 2); 
+		int newShape = Random.Range (0, 6); 
 
-//		Debug.Log ("shape" + newShape);
-//		Debug.Log ("color" + newColor);
+	//	sprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
+
+
+		SpriteRenderer fruitShape =  GetComponentInChildren<SpriteRenderer> ();
 
 		switch (newShape) {
-
-		case 0: //squares
-			sprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
+		case 0:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitApple");
 			break;
 		case 1:
-			sprite.sprite = Resources.Load<Sprite> ("Images/circle_sprite");
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitBanana");
 			break;
-
+		case 2:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitCherry");
+			break;
+		case 3:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitGrapes");
+			break;
+		case 4:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitLemon");
+			break;
+		case 5:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitPineapple");
+			break;
+		case 6:
+			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
+			break;
 		}
+		//Helen, don't be an idiot.  Leave this here. 
 		shape = newShape; 
 		switch (newColor) {
 
 		case 0:
-			sprite.material = Resources.Load<Material> ("Images/RedMat");
+			blockSprite.material = Resources.Load<Material> ("Images/RedMat");
 			break;
 		case 1:
-			sprite.material = Resources.Load<Material> ("Images/BlueMat");
+			blockSprite.material = Resources.Load<Material> ("Images/BlueMat");
 			break;
 		case 2:
-			sprite.material = Resources.Load<Material> ("Images/GreenMat");
+			blockSprite.material = Resources.Load<Material> ("Images/GreenMat");
 			break;
 		case 3:
-			sprite.material = Resources.Load<Material> ("Images/YellowMat");
+			blockSprite.material = Resources.Load<Material> ("Images/YellowMat");
 			break;
-		/*case 4:
-			sprite.material = Resources.Load<Material> ("Images/GreyMat");
+		case 4:
+			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
 			break;
-			case 5:
-			sprite.material = Resources.Load<Material> ("Images/PinkMat");
-			break;*/
-		
+		case 5:
+			blockSprite.material = Resources.Load<Material> ("Images/PinkMat");
+			break;
 		}
 		color = newColor;
 	}
