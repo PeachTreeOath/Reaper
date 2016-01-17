@@ -47,6 +47,7 @@ MonoBehaviour:
   destRow: 0
   destCol: 0
   color: 0
+  shape: 0
   toDelete: 0
 --- !u!212 &21207766
 SpriteRenderer:
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1945834593
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4ae1fc6e9c90b5049a109562ad94c891, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,8 +93,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4ae1fc6e9c90b5049a109562ad94c891,
-        type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 123516}
