@@ -48,7 +48,7 @@ public class Player : BoardObject
 				jump_key = Input.GetKey (KeyCode.RightShift) || Input.GetKey (KeyCode.LeftShift);
 				pull_key = Input.GetKey (KeyCode.Tab);
 			} else {
-				direction = Random.Range (1, 5);
+				direction = Random.Range (0, 11);
 				jump_key = Random.Range (0, 1)==1; //since c# can't make int to bool	
 				pull_key = Random.Range (0, 1) ==1 ;
 
@@ -64,7 +64,7 @@ public class Player : BoardObject
 			}
 
 
-			if (direction != 0) {
+			if (direction >= 1 && direction <=4) {
 
 				if ((mgr.GetPlayerInPosition (destR, destC) != null) && 
 					(mgr.CheckForBlock(destR, destC) == false)) 

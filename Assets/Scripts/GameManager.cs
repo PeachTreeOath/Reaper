@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
 			SpawnBotPlayer ();
 
 		}
-
 	}
 
 	// Update is called once per frame
