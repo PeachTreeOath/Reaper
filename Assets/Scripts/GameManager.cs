@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 		}
 		for (int i = 0; i < 3; i++) {
 			SpawnBotPlayer ();
+
 		}
 
 	}
@@ -263,6 +264,7 @@ public class GameManager : MonoBehaviour
 				player.transform.parent = boardParent.transform;
 				player.SetBoardPosition (row, col); 	
 				board [row, col].player = player;
+				player.isBot = true; 
 				break;
 			}
 		}

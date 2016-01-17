@@ -5,6 +5,7 @@ public class Player : BoardObject
 {
 
 	private Animator animator;
+	public bool isBot; 
 
 	// Use this for initialization
 	void Start ()
@@ -12,7 +13,8 @@ public class Player : BoardObject
 		boardType = BoardType.PLAYER;
 		animator = GetComponent<Animator> ();
 	}
-	
+		
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -21,26 +23,47 @@ public class Player : BoardObject
 			int direction = 0; // L R U D
 			int destR = row;
 			int destC = col;
-			if (Input.GetAxis ("Horizontal") < 0) {
-				destC = Mathf.Clamp (col - 1, 0, mgr.boardSize+1);
-				direction = 1;
-			} else if (Input.GetAxis ("Horizontal") > 0) {
-				destC = Mathf.Clamp (col + 1, 0, mgr.boardSize+1);
-				direction = 2;
-			} else if (Input.GetAxis ("Vertical") < 0) {
-				destR = Mathf.Clamp (row + 1, 0, mgr.boardSize+1);
-				direction = 3;
-			} else if (Input.GetAxis ("Vertical") > 0) {
-				destR = Mathf.Clamp (row - 1, 0, mgr.boardSize+1);
-				direction = 4;
-			}else {
+			bool jump_key; 
+			bool pull_key;
+
+			if (!isBot) {
+
+				if (Input.GetAxis ("Horizontal") < 0) {
+					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
+					direction = 1;
+				} else if (Input.GetAxis ("Horizontal") > 0) {
+					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
+					direction = 2;
+				} else if (Input.GetAxis ("Vertical") < 0) {
+					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
+					direction = 3;
+				} else if (Input.GetAxis ("Vertical") > 0) {
+					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
+					direction = 4;
+				} else {
 					animator.SetBool ("Pushing", false);
 				}
 
-			animator.SetInteger ("Direction", direction);
-			bool jump_key = Input.GetKey (KeyCode.RightShift) || Input.GetKey (KeyCode.LeftShift);
-			bool pull_key = Input.GetKey (KeyCode.Tab);
-			//Debug.Log (string.Format("shift_down equals", shift_down)); 
+				animator.SetInteger ("Direction", direction);
+				jump_key = Input.GetKey (KeyCode.RightShift) || Input.GetKey (KeyCode.LeftShift);
+				pull_key = Input.GetKey (KeyCode.Tab);
+			} else {
+				direction = Random.Range (1, 5);
+				jump_key = Random.Range (0, 1)==1; //since c# can't make int to bool	
+				pull_key = Random.Range (0, 1) ==1 ;
+
+				if (direction == 1) {
+					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
+				} else if (direction == 2) {
+					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
+				} else if (direction == 3) {
+					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
+				} else if (direction == 4) {
+					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
+				}
+			}
+
+
 			if (direction != 0) {
 
 				if ((mgr.GetPlayerInPosition (destR, destC) != null) && 
@@ -83,5 +106,4 @@ public class Player : BoardObject
 			}
 		} 
 	}
-
 }
