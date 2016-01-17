@@ -6,6 +6,12 @@ public class Player : BoardObject
 
 	private Animator animator;
 	public bool isBot; 
+	public float jumpDelay = 0.2f;
+	private bool isJumping;
+	private float jumpTime;
+	private int prevDirection = 4;
+	private bool jumpAgainstWall = false;
+	private Vector2 jumpStartPosition;
 
 	// Use this for initialization
 	void Start ()
@@ -19,6 +25,22 @@ public class Player : BoardObject
 	void Update ()
 	{
 		base.Update ();
+
+		if (isJumping) {
+			jumpTime += Time.deltaTime * speed;
+			if (jumpAgainstWall) {
+				transform.position = new Vector2 (jumpStartPosition.x, jumpStartPosition.y + GetJumpHeight(jumpTime));
+			} else {
+				transform.position = new Vector2 (transform.position.x, transform.position.y + GetJumpHeight(jumpTime));
+			}
+
+			if (jumpTime >= 1) {
+				isJumping = false;
+				jumpAgainstWall = false;
+				jumpStartPosition = Vector2.zero;
+			}
+		}
+	
 		if (!moving) {
 			int direction = 0; // L R U D
 			int destR = row;
@@ -27,19 +49,27 @@ public class Player : BoardObject
 			bool pull_key;
 
 			if (!isBot) {
+				if (Input.GetKeyDown (KeyCode.Space) && !isBot && !isJumping) {
+					Jump ();
+					return;
+				}
 
 				if (Input.GetAxis ("Horizontal") < 0) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					direction = 1;
+					prevDirection = direction;
 				} else if (Input.GetAxis ("Horizontal") > 0) {
 					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					direction = 2;
+					prevDirection = direction;
 				} else if (Input.GetAxis ("Vertical") < 0) {
 					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					direction = 3;
+					prevDirection = direction;
 				} else if (Input.GetAxis ("Vertical") > 0) {
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					direction = 4;
+					prevDirection = direction;
 				} else {
 					animator.SetBool ("Pushing", false);
 				}
@@ -105,5 +135,39 @@ public class Player : BoardObject
 				}
 			}
 		} 
+	}
+
+	private void Jump()
+	{
+		jumpTime = 0;
+		isJumping = true;	
+
+		//pure movement 
+		int destR = row;
+		int destC = col;
+		if (prevDirection == 1) {
+			destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
+		} else if (prevDirection == 2) {
+			destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
+		} else if (prevDirection == 3) {
+			destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
+		} else if (prevDirection == 4) {
+			destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
+		}
+		if (destR == row && destC == col) {
+			jumpAgainstWall = true;
+			jumpStartPosition = GetBoardPosition (row, col);
+		}
+		Move (destR, destC);
+		mgr.SetPlayerPosition (destR, destC, this); 
+		mgr.VacatePlayerPosition (row, col);
+	}
+
+	private float GetJumpHeight(float time)
+	{
+		float a = 1f;
+		float diff = time - 0.5f;
+		float height = (-a * diff * diff) + 0.25f;
+		return Mathf.Clamp (height, 0, 100);
 	}
 }
