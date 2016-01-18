@@ -16,16 +16,10 @@ public class Player : BoardObject
 	private int pullDirection = 3;
 	private bool jumpAgainstWall = false;
 	private Vector2 jumpStartPosition;
-	private Dictionary<int,int> pullMap; // Defines what directions you can pull in
 
 	// Use this for initialization
 	void Start ()
 	{
-		pullMap = new Dictionary<int,int> ();
-		pullMap.Add (1, 2);
-		pullMap.Add (2, 1);
-		pullMap.Add (3, 4);
-		pullMap.Add (4, 3);
 		boardType = BoardType.PLAYER;
 		animator = GetComponent<Animator> ();
 	}
@@ -124,14 +118,11 @@ public class Player : BoardObject
 					//If pull key held down and move fwd, just push block
 					if (pullDirection == direction) {
 						PushBlock (direction, row, col, destR, destC);
-					}
-					//Only allow pulling in the opposite direction
-					else if (direction == pullMap [pullDirection]) {
+					} else {
 						PullBlock (direction, row, col, destR, destC);
 					}
-				} 
-				else if (mgr.CheckForBlock (destR, destC)) {
-					PushBlock(direction, row, col, destR, destC);
+				} else if (mgr.CheckForBlock (destR, destC)) {
+					PushBlock (direction, row, col, destR, destC);
 				} else {
 					//pure movement 
 					Move (destR, destC);
@@ -182,9 +173,9 @@ public class Player : BoardObject
 		animator.SetBool ("Pushing", true);
 		if (mgr.PushBlock (direction, destR, destC) || //recursive call allows you to move a row of blocks 
 		//when pushing, blocks moves first, player moves next
-		   ((mgr.GetBlockInPosition (row, col) != null) &&
-		   (mgr.GetPlayerInPosition (destR, destC) == null) &&
-		   (mgr.GetBlockInPosition (destR, destC) != null))) {
+		    ((mgr.GetBlockInPosition (row, col) != null) &&
+		    (mgr.GetPlayerInPosition (destR, destC) == null) &&
+		    (mgr.GetBlockInPosition (destR, destC) != null))) {
 			// or both current position and dest position is on a block, and no player on the dest block
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
