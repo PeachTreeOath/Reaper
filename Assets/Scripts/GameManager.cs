@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour
 			}
 			Block newBlock = board [row, col + i].block;
 
-			if (firstBlock == null || newBlock == null) {
+			if (firstBlock == null || newBlock == null || firstBlock.color == 0 || newBlock.color == 0) {
 				return;
 			}
 			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
@@ -266,9 +266,10 @@ public class GameManager : MonoBehaviour
 				return;
 			}
 			Block newBlock = board [row + i, col].block;
-			if (firstBlock == null || newBlock == null) {
+			if (firstBlock == null || newBlock == null || firstBlock.color == 0 || newBlock.color == 0) {
 				return;
 			}
+	
 			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
 				matchColor = false; 
 			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 1))
