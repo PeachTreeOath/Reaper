@@ -1,0 +1,136 @@
+fileFormatVersion: 2
+guid: 139c2fc9aa69963478e3f9c22bc6f4a2
+timeCreated: 1453096862
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: kiwileftwalk_0
+    21300002: kiwileftwalk_1
+    21300004: kiwileftwalk_2
+    21300006: kiwileftwalk_3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: kiwileftwalk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -75, y: 75}
+        - {x: -75, y: -75}
+        - {x: 73, y: -75}
+        - {x: 75, y: -64}
+        - {x: 75, y: 58}
+        - {x: 56, y: 75}
+    - name: kiwileftwalk_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14, y: 75}
+        - {x: -55, y: 75}
+        - {x: -70, y: 63}
+        - {x: -75, y: 49}
+        - {x: -75, y: 13}
+        - {x: -31, y: -75}
+        - {x: 46, y: -75}
+        - {x: 75, y: -60}
+        - {x: 75, y: 40}
+        - {x: 49, y: 68}
+    - name: kiwileftwalk_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 150
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -75, y: 75}
+        - {x: -75, y: -75}
+        - {x: 75, y: -75}
+        - {x: 75, y: 59}
+        - {x: 28, y: 75}
+    - name: kiwileftwalk_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14, y: 75}
+        - {x: -55, y: 75}
+        - {x: -70, y: 63}
+        - {x: -75, y: 49}
+        - {x: -75, y: 13}
+        - {x: -31, y: -75}
+        - {x: 46, y: -75}
+        - {x: 75, y: -60}
+        - {x: 75, y: 40}
+        - {x: 49, y: 68}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
