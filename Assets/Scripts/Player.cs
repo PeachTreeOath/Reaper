@@ -6,6 +6,7 @@ public class Player : BoardObject
 
 	private Animator animator;
 	public bool isBot; 
+	public float pushDelay = 0.2f;
 	public float jumpDelay = 0.2f;
 	private bool isJumping;
 	private float jumpTime;
