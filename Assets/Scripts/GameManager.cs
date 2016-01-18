@@ -200,18 +200,32 @@ public class GameManager : MonoBehaviour
 
 		bool matchColor = true;
 		bool matchShape = true;
+		int matchLength = 1; 
+
+		Block firstBlock = board [row, col].block; 
 
 		for (int i = 1; i < length; i++) {
+			if (firstBlock == null)
+				return;
+			if (firstBlock.color == 0) {
+				firstBlock = board [row , col+i].block; 
+				matchLength += 1; 
+			} else {
+				break;
+			}
+		}
+
+		for (int i = matchLength; i < length; i++) {
 			if (col + i > boardSize) {
 				return;
 			}
 			Block newBlock = board [row, col + i].block;
-			if (board [row, col].block == null || newBlock == null) {
+			if (firstBlock == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) && (newBlock.color != 0)) //not wild card
+			if ((firstBlock.color != newBlock.color) && (newBlock.color != 0)) //not wild card
 				matchColor = false; 
-			if ((board[row,col].block.shape != newBlock.shape) && (newBlock.color != 0))
+			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 0))
 				matchShape = false;
 		}
 
@@ -227,18 +241,35 @@ public class GameManager : MonoBehaviour
 	{
 		bool matchColor = true;
 		bool matchShape = true;
+		int matchLength = 1; 
+
+		Block firstBlock = board [row, col].block; 
 
 		for (int i = 1; i < length; i++) {
+			if (firstBlock == null)
+				return;
+			Debug.Log (firstBlock);
+			Debug.Log (firstBlock.color);
+
+			if (firstBlock.color == 0) {
+				firstBlock = board [row + i, col].block; 
+				matchLength += 1; 
+			} else {
+				break;
+			}
+		}
+
+		for (int i = matchLength; i < length; i++) {
 			if (row + i > boardSize) {
 				return;
 			}
 			Block newBlock = board [row + i, col].block;
-			if (board [row, col].block == null || newBlock == null) {
+			if (firstBlock == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) && (newBlock.color != 0)) //not wild card
+			if ((firstBlock.color != newBlock.color) && (newBlock.color != 0)) //not wild card
 				matchColor = false; 
-			if ((board[row,col].block.shape != newBlock.shape) && (newBlock.color != 0))
+			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 0))
 				matchShape = false;
 		}
 
