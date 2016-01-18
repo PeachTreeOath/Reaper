@@ -42,9 +42,16 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	//TODO delete this in final game
+	private bool initMatch = false;
 	// Update is called once per frame
 	void Update ()
 	{
+		if(!initMatch)
+		{
+			CheckForMatches ();
+		}
+
 		if (lastSpawnTime + spawnSpeed < Time.time) {
 			//	SpawnBlock ();
 			lastSpawnTime = Time.time;
