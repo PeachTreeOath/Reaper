@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 		if(!initMatch)
 		{
 			CheckForMatches ();
+			initMatch = true;
 		}
 
 		if (lastSpawnTime + spawnSpeed < Time.time) {
