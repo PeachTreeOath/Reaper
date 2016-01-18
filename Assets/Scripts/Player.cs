@@ -82,10 +82,12 @@ public class Player : BoardObject
 				if (Input.GetKey (KeyCode.Tab) && !isPulling) {
 					pullDirection = prevDirection;
 					isPulling = true;
+					animator.SetBool ("Pulling", true);
 				} 
 				else if (!Input.GetKey (KeyCode.Tab)) {
 					pullDirection = 0;
 					isPulling = false;
+					animator.SetBool ("Pulling", false);
 				}
 
 			} else {
@@ -186,7 +188,7 @@ public class Player : BoardObject
 	private void PullBlock (int direction, int row, int col, int destR, int destC)
 	{
 		//pulling -- when pulling, player moves first
-		animator.SetBool ("Pulling", true);
+	//	animator.SetBool ("Pulling", true);
 
 		//Don't pull if there's a player or block behind you
 		if (!mgr.CheckForBlock (destR, destC) && mgr.GetPlayerInPosition (destR, destC) == null) {

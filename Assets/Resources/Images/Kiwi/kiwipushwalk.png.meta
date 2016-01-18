@@ -1,9 +1,13 @@
 fileFormatVersion: 2
 guid: efbe6e44cccc25f458f8cb1dbc746eb3
-timeCreated: 1453092629
+timeCreated: 1453093912
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: kiwipushwalk_0
+    21300002: kiwipushwalk_1
+    21300004: kiwipushwalk_2
+    21300006: kiwipushwalk_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +42,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +53,83 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: kiwipushwalk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -67, y: 75}
+        - {x: -75, y: 61}
+        - {x: -75, y: -72}
+        - {x: -72, y: -75}
+        - {x: 34, y: -75}
+        - {x: 75, y: -16}
+        - {x: 75, y: 59}
+        - {x: 69, y: 75}
+    - name: kiwipushwalk_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -65, y: 75}
+        - {x: -75, y: 47}
+        - {x: -75, y: -48}
+        - {x: -47, y: -75}
+        - {x: 18, y: -75}
+        - {x: 75, y: -33}
+        - {x: 75, y: 75}
+    - name: kiwipushwalk_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 150
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -36, y: 75}
+        - {x: -72, y: 53}
+        - {x: -75, y: 40}
+        - {x: -75, y: -36}
+        - {x: -69, y: -66}
+        - {x: -58, y: -75}
+        - {x: 43, y: -75}
+        - {x: 75, y: -53}
+        - {x: 75, y: 58}
+        - {x: 62, y: 75}
+    - name: kiwipushwalk_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -65, y: 75}
+        - {x: -75, y: 47}
+        - {x: -75, y: -48}
+        - {x: -47, y: -75}
+        - {x: 18, y: -75}
+        - {x: 75, y: -33}
+        - {x: 75, y: 75}
     outline: []
   spritePackingTag: 
   userData: 

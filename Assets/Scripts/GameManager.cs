@@ -36,10 +36,13 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < boardSize * 2; i++) {
 			SpawnBlock ();
 		}
+		CheckForMatches ();
 		for (int i = 0; i < 3; i++) {
 			//SpawnBotPlayer ();
 
 		}
+
+
 	}
 
 	//TODO delete this in final game

@@ -1,9 +1,13 @@
 fileFormatVersion: 2
 guid: 833093210e3a19b449f457e11ff22be6
-timeCreated: 1453092628
+timeCreated: 1453095626
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: kiwibackwalk_0
+    21300002: kiwibackwalk_1
+    21300004: kiwibackwalk_2
+    21300006: kiwibackwalk_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +42,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +53,91 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: kiwibackwalk_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 450
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34, y: 75}
+        - {x: -59, y: 61}
+        - {x: -75, y: 40}
+        - {x: -75, y: -47}
+        - {x: -69, y: -75}
+        - {x: 48, y: -75}
+        - {x: 75, y: -56}
+        - {x: 75, y: 43}
+        - {x: 50, y: 75}
+    - name: kiwibackwalk_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 75}
+        - {x: -58, y: 50}
+        - {x: -75, y: 38}
+        - {x: -75, y: -55}
+        - {x: -69, y: -75}
+        - {x: 69, y: -75}
+        - {x: 75, y: -73}
+        - {x: 75, y: 45}
+        - {x: 69, y: 75}
+    - name: kiwibackwalk_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 150
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68, y: -75}
+        - {x: 75, y: -60}
+        - {x: 75, y: 54}
+        - {x: 28, y: 75}
+        - {x: -40, y: 75}
+        - {x: -67, y: 38}
+        - {x: -75, y: 18}
+        - {x: -75, y: -41}
+        - {x: -54, y: -75}
+        - {x: -13, y: -75}
+        - {x: -13, y: -65}
+        - {x: -15, y: -63}
+        - {x: 12, y: -75}
+    - name: kiwibackwalk_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 150
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -30, y: 75}
+        - {x: -58, y: 50}
+        - {x: -75, y: 38}
+        - {x: -75, y: -55}
+        - {x: -69, y: -75}
+        - {x: 69, y: -75}
+        - {x: 75, y: -73}
+        - {x: 75, y: 45}
+        - {x: 69, y: 75}
     outline: []
   spritePackingTag: 
   userData: 
