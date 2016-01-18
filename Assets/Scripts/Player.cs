@@ -62,18 +62,22 @@ public class Player : BoardObject
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					direction = 1;
 					prevDirection = direction;
+					animator.SetInteger ("Prevdirection", prevDirection);
 				} else if (Input.GetAxis ("Horizontal") > 0) {
 					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					direction = 2;
 					prevDirection = direction;
+					animator.SetInteger ("Prevdirection", prevDirection);
 				} else if (Input.GetAxis ("Vertical") < 0) {
 					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					direction = 3;
 					prevDirection = direction;
+					animator.SetInteger ("Prevdirection", prevDirection);
 				} else if (Input.GetAxis ("Vertical") > 0) {
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					direction = 4;
 					prevDirection = direction;
+					animator.SetInteger ("Prevdirection", prevDirection);
 				} else {
 					animator.SetBool ("Pushing", false);
 				}
