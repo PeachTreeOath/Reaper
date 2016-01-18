@@ -209,9 +209,9 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if (board [row, col].block.color != newBlock.color) 
+			if ((board [row, col].block.color != newBlock.color) && (newBlock.color != 0)) //not wild card
 				matchColor = false; 
-			if (board[row,col].block.shape != newBlock.shape)
+			if ((board[row,col].block.shape != newBlock.shape) && (newBlock.color != 0))
 				matchShape = false;
 		}
 
@@ -225,6 +225,9 @@ public class GameManager : MonoBehaviour
 
 	private void MatchV (int row, int col, int length)
 	{
+		bool matchColor = true;
+		bool matchShape = true;
+
 		for (int i = 1; i < length; i++) {
 			if (row + i > boardSize) {
 				return;
@@ -233,14 +236,17 @@ public class GameManager : MonoBehaviour
 			if (board [row, col].block == null || newBlock == null) {
 				return;
 			}
-			if ((board [row, col].block.color != newBlock.color) && (board[row,col].block.shape != newBlock.shape)) {
-				return;
-			}
+			if ((board [row, col].block.color != newBlock.color) && (newBlock.color != 0)) //not wild card
+				matchColor = false; 
+			if ((board[row,col].block.shape != newBlock.shape) && (newBlock.color != 0))
+				matchShape = false;
 		}
 
-		for (int i = 0; i < length; i++) {
-			Block newBlock = board [row + i, col].block;
-			newBlock.toDelete = true;
+		if (matchShape || matchColor) {
+			for (int i = 0; i < length; i++) {
+				Block newBlock = board [row + i, col].block;
+				newBlock.toDelete = true;
+			}
 		}
 	}
 

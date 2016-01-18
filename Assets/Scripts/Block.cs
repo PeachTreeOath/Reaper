@@ -25,8 +25,38 @@ public class Block : BoardObject
 	private void SetBlockProperties ()
 	{
 		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
-		//int newColor = Random.Range (0, 6);
-		int newColor = Random.Range (0, 4);
+		int newColor = Random.Range (0, 5);
+
+		if (newColor == 0) {
+			blockSprite.sprite = Resources.Load<Sprite> ("Images/wildcard_sprite");
+		} else {
+			blockSprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
+		}
+		color = newColor;
+
+		switch (newColor) {
+		case 0:
+			return; //no colors or fruits on a wildcard
+		case 1:
+			blockSprite.material = Resources.Load<Material> ("Images/BlueMat");
+			break;
+		case 2:
+			blockSprite.material = Resources.Load<Material> ("Images/GreenMat");
+			break;
+		case 3:
+			blockSprite.material = Resources.Load<Material> ("Images/YellowMat");
+			break;
+		case 4:
+			blockSprite.material = Resources.Load<Material> ("Images/RedMat");
+			break;
+		case 5:
+			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
+			break;
+		case 6:
+			blockSprite.material = Resources.Load<Material> ("Images/PinkMat");
+			break;
+		}
+
 		int newShape = Random.Range (0, 6); 
 
 	//	sprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
@@ -59,28 +89,7 @@ public class Block : BoardObject
 		}
 		//Helen, don't be an idiot.  Leave this here. 
 		shape = newShape; 
-		switch (newColor) {
 
-		case 0:
-			blockSprite.material = Resources.Load<Material> ("Images/RedMat");
-			break;
-		case 1:
-			blockSprite.material = Resources.Load<Material> ("Images/BlueMat");
-			break;
-		case 2:
-			blockSprite.material = Resources.Load<Material> ("Images/GreenMat");
-			break;
-		case 3:
-			blockSprite.material = Resources.Load<Material> ("Images/YellowMat");
-			break;
-		case 4:
-			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
-			break;
-		case 5:
-			blockSprite.material = Resources.Load<Material> ("Images/PinkMat");
-			break;
-		}
-		color = newColor;
 	}
 
 	protected override void SetDestToPos ()
