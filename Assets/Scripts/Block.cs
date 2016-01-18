@@ -25,9 +25,9 @@ public class Block : BoardObject
 	private void SetBlockProperties ()
 	{
 		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
-		int newColor = Random.Range (0, 5);
+		int newColor = Random.Range (1, 6);
 
-		if (newColor == 0) {
+		if (newColor == 1) {
 			blockSprite.sprite = Resources.Load<Sprite> ("Images/wildcard_sprite");
 		} else {
 			blockSprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
@@ -35,29 +35,30 @@ public class Block : BoardObject
 		color = newColor;
 
 		switch (newColor) {
-		case 0:
-			return; //no colors or fruits on a wildcard
 		case 1:
+			shape = 1; // random shape that doesn't get used
+			return; //no colors or fruits on a wildcard
+		case 2:
 			blockSprite.material = Resources.Load<Material> ("Images/BlueMat");
 			break;
-		case 2:
+		case 3:
 			blockSprite.material = Resources.Load<Material> ("Images/GreenMat");
 			break;
-		case 3:
+		case 4:
 			blockSprite.material = Resources.Load<Material> ("Images/YellowMat");
 			break;
-		case 4:
+		case 5:
 			blockSprite.material = Resources.Load<Material> ("Images/RedMat");
 			break;
-		case 5:
+		case 6:
 			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
 			break;
-		case 6:
+		case 7:
 			blockSprite.material = Resources.Load<Material> ("Images/PinkMat");
 			break;
 		}
 
-		int newShape = Random.Range (0, 6); 
+		int newShape = Random.Range (1, 7); 
 
 	//	sprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
 
@@ -65,31 +66,30 @@ public class Block : BoardObject
 		SpriteRenderer fruitSprite = fruitShape.GetComponent<SpriteRenderer> ();
 
 		switch (newShape) {
-		case 0:
+		case 1:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitApple");
 			break;
-		case 1:
+		case 2:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitBanana");
 			break;
-		case 2:
+		case 3:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitCherries");
 			break;
-		case 3:
+		case 4:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitGrapes");
 			break;
-		case 4:
+		case 5:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitLemon");
 			break;
-		case 5:
+		case 6:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitPineapple");
 			break;
-		case 6:
+		case 7:
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
 			break;
 		}
 		//Helen, don't be an idiot.  Leave this here. 
 		shape = newShape; 
-
 	}
 
 	protected override void SetDestToPos ()

@@ -203,12 +203,14 @@ public class GameManager : MonoBehaviour
 		int matchLength = 1; 
 
 		Block firstBlock = board [row, col].block; 
-
+		if (firstBlock == null)
+			return;
+		
 		for (int i = 1; i < length; i++) {
-			if (firstBlock == null)
-				return;
-			if (firstBlock.color == 0) {
-				firstBlock = board [row , col+i].block; 
+			if (firstBlock.color == 1) {
+				firstBlock = board [row , col+i].block;
+				if (firstBlock == null)
+					return;
 				matchLength += 1; 
 			} else {
 				break;
@@ -220,18 +222,22 @@ public class GameManager : MonoBehaviour
 				return;
 			}
 			Block newBlock = board [row, col + i].block;
+
 			if (firstBlock == null || newBlock == null) {
 				return;
 			}
-			if ((firstBlock.color != newBlock.color) && (newBlock.color != 0)) //not wild card
+			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
 				matchColor = false; 
-			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 0))
+			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 1))
 				matchShape = false;
 		}
 
 		if (matchShape || matchColor) {
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row, col + i].block;
+				if (newBlock == null) {
+					int x = 1; //why?
+				}
 				newBlock.toDelete = true;
 			}
 		}
@@ -244,21 +250,20 @@ public class GameManager : MonoBehaviour
 		int matchLength = 1; 
 
 		Block firstBlock = board [row, col].block; 
-
+		if (firstBlock == null)
+			return;
+			
 		for (int i = 1; i < length; i++) {
-			if (firstBlock == null)
-				return;
-			Debug.Log (firstBlock);
-			Debug.Log (firstBlock.color);
-
-			if (firstBlock.color == 0) {
+			
+			if (firstBlock.color == 1) {
 				firstBlock = board [row + i, col].block; 
+				if (firstBlock == null)
+					return;
 				matchLength += 1; 
 			} else {
 				break;
 			}
 		}
-
 		for (int i = matchLength; i < length; i++) {
 			if (row + i > boardSize) {
 				return;
@@ -267,15 +272,18 @@ public class GameManager : MonoBehaviour
 			if (firstBlock == null || newBlock == null) {
 				return;
 			}
-			if ((firstBlock.color != newBlock.color) && (newBlock.color != 0)) //not wild card
+			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
 				matchColor = false; 
-			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 0))
+			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 1))
 				matchShape = false;
 		}
 
 		if (matchShape || matchColor) {
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row + i, col].block;
+				if (newBlock == null) {
+					int x = 1; //why?
+				}
 				newBlock.toDelete = true;
 			}
 		}
