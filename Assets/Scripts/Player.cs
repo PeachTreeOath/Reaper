@@ -79,10 +79,11 @@ public class Player : BoardObject
 				}
 
 				animator.SetInteger ("Direction", direction);
-				if (Input.GetKeyDown (KeyCode.Tab) && !isPulling) {
+				if (Input.GetKey (KeyCode.Tab) && !isPulling) {
 					pullDirection = prevDirection;
 					isPulling = true;
-				} else if (Input.GetKeyUp (KeyCode.Tab)) {
+				} 
+				else if (!Input.GetKey (KeyCode.Tab)) {
 					pullDirection = 0;
 					isPulling = false;
 				}
@@ -101,8 +102,7 @@ public class Player : BoardObject
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 				}
 			}
-
-
+				
 			if (direction >= 1 && direction <= 4) {
 
 				//Debug.Log("player in dest position " + (mgr.GetPlayerInPosition(destR, destC)!= null));
