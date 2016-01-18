@@ -47,7 +47,7 @@ public class Player : BoardObject
 		}
 	
 		if (!moving) {
-			int direction = 0; // L R U D
+			int direction = 0; // L R D U
 			int destR = row;
 			int destC = col;
 			//bool pull_key;
