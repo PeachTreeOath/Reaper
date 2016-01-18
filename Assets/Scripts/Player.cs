@@ -50,7 +50,7 @@ public class Player : BoardObject
 			int direction = 0; // L R U D
 			int destR = row;
 			int destC = col;
-			bool pull_key;
+			//bool pull_key;
 
 			if (!isBot) {
 				if (Input.GetKeyDown (KeyCode.Space) && !isBot && !isJumping) {
@@ -89,7 +89,7 @@ public class Player : BoardObject
 
 			} else {
 				direction = Random.Range (0, 11);
-				pull_key = Random.Range (0, 1) == 1;
+				//pull_key = Random.Range (0, 1) == 1;
 
 				if (direction == 1) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);

@@ -235,9 +235,6 @@ public class GameManager : MonoBehaviour
 		if (matchShape || matchColor) {
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row, col + i].block;
-				if (newBlock == null) {
-					int x = 1; //why?
-				}
 				newBlock.toDelete = true;
 			}
 		}
@@ -281,9 +278,6 @@ public class GameManager : MonoBehaviour
 		if (matchShape || matchColor) {
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row + i, col].block;
-				if (newBlock == null) {
-					int x = 1; //why?
-				}
 				newBlock.toDelete = true;
 			}
 		}
