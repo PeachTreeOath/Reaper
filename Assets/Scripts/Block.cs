@@ -31,30 +31,30 @@ public class Block : BoardObject
 
 	//	sprite.sprite = Resources.Load<Sprite> ("Images/block_sprite");
 
-
-		SpriteRenderer fruitShape =  GetComponentInChildren<SpriteRenderer> ();
+		FruitShape fruitShape =  GetComponentInChildren<FruitShape> ();
+		SpriteRenderer fruitSprite = fruitShape.GetComponent<SpriteRenderer> ();
 
 		switch (newShape) {
 		case 0:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitApple");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitApple");
 			break;
 		case 1:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitBanana");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitBanana");
 			break;
 		case 2:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitCherry");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitCherries");
 			break;
 		case 3:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitGrapes");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitGrapes");
 			break;
 		case 4:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitLemon");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitLemon");
 			break;
 		case 5:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitPineapple");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitPineapple");
 			break;
 		case 6:
-			fruitShape.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
+			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
 			break;
 		}
 		//Helen, don't be an idiot.  Leave this here. 
