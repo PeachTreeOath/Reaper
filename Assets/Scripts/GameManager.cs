@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 			SpawnBlock ();
 		}
 		for (int i = 0; i < 3; i++) {
-			SpawnBotPlayer ();
+			//SpawnBotPlayer ();
 
 		}
 	}
@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
 
 	public void PlaceBlock (Block block, int row, int col)
 	{
-		board [row, col].block = block; //Hi, it's me!
+		board [row, col].block = block;
 	}
 
 	public void SetPlayerPosition (int row, int col, Player player)
@@ -334,6 +334,7 @@ public class GameManager : MonoBehaviour
 	{
 		return board [row, col].player; 
 	}
+
 	public Block GetBlockInPosition (int row, int col)
 	{
 		return board [row, col].block; 
