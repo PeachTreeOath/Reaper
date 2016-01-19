@@ -1,9 +1,18 @@
 fileFormatVersion: 2
 guid: 54ade33c4f68901478fe5312c1f5c2d9
-timeCreated: 1453188196
+timeCreated: 1453188422
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: grassTiles_0
+    21300002: grassTiles_1
+    21300004: grassTiles_2
+    21300006: grassTiles_3
+    21300008: grassTiles_4
+    21300010: grassTiles_5
+    21300012: grassTiles_6
+    21300014: grassTiles_7
+    21300016: grassTiles_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +47,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -49,7 +58,142 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: grassTiles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2400
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 114.44446}
+        - {x: -114, y: -113.55554}
+        - {x: 114, y: -113.55554}
+        - {x: 114, y: 114.44446}
+    - name: grassTiles_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2100
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 115.388916}
+        - {x: -114, y: -113.611084}
+        - {x: 114, y: -113.611084}
+        - {x: 114, y: 115.388916}
+    - name: grassTiles_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1800
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 114.333374}
+        - {x: -114, y: -113.666626}
+        - {x: 114, y: -113.666626}
+        - {x: 114, y: 114.333374}
+    - name: grassTiles_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 115.27783}
+        - {x: -114, y: -113.72217}
+        - {x: 114, y: -113.72217}
+        - {x: 114, y: 115.27783}
+    - name: grassTiles_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 114.22223}
+        - {x: -114, y: -113.77777}
+        - {x: 114, y: -113.77777}
+        - {x: 114, y: 114.22223}
+    - name: grassTiles_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 115.16669}
+        - {x: -114, y: -113.83331}
+        - {x: 114, y: -113.83331}
+        - {x: 114, y: 115.16669}
+    - name: grassTiles_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 114.111115}
+        - {x: -114, y: -113.888885}
+        - {x: 114, y: -113.888885}
+        - {x: 114, y: 114.111115}
+    - name: grassTiles_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 115.05556}
+        - {x: -114, y: -113.94444}
+        - {x: 114, y: -113.94444}
+        - {x: 114, y: 115.05556}
+    - name: grassTiles_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 300
+        height: 300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -114, y: 114}
+        - {x: -114, y: -114}
+        - {x: 114, y: -114}
+        - {x: 114, y: 114}
     outline: []
   spritePackingTag: 
   userData: 
