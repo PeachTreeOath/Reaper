@@ -13,25 +13,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Pushing
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Pulling
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Prevdirection
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: TryPulling
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -58,6 +64,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pushing
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pulling
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110214952}
   m_Solo: 0
@@ -83,7 +92,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Direction
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Pulling
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   - m_ConditionMode: 6
     m_ConditionEvent: Prevdirection
@@ -115,6 +124,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pushing
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pulling
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110294516}
   m_Solo: 0
@@ -142,6 +154,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pulling
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pushing
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110213012}
   m_Solo: 0
@@ -167,7 +182,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Direction
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Pulling
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   - m_ConditionMode: 6
     m_ConditionEvent: Prevdirection
@@ -194,7 +209,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Pulling
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   - m_ConditionMode: 6
     m_ConditionEvent: Direction
@@ -229,6 +244,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pulling
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pushing
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110223878}
   m_Solo: 0
@@ -255,6 +273,9 @@ AnimatorStateTransition:
     m_EventTreshold: 1
   - m_ConditionMode: 1
     m_ConditionEvent: Pushing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pulling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110249726}
@@ -283,6 +304,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Pulling
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pushing
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110274812}
   m_Solo: 0
@@ -309,6 +333,9 @@ AnimatorStateTransition:
     m_EventTreshold: 4
   - m_ConditionMode: 1
     m_ConditionEvent: Pulling
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pushing
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110233126}
@@ -342,6 +369,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Pushing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110254584}
@@ -517,6 +547,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Pushing
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: TryPulling
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110223506}
   m_Solo: 0
@@ -542,7 +575,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Direction
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: Pulling
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   - m_ConditionMode: 6
     m_ConditionEvent: Prevdirection
@@ -580,6 +613,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Pushing
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: TryPulling
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110287334}
   m_Solo: 0
@@ -606,6 +642,9 @@ AnimatorStateTransition:
     m_EventTreshold: 2
   - m_ConditionMode: 1
     m_ConditionEvent: Pushing
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pulling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110276058}
@@ -639,6 +678,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Pulling
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: TryPulling
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 110242408}
@@ -1156,7 +1198,7 @@ AnimatorStateMachine:
     m_Position: {x: 48, y: -132, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110213012}
-    m_Position: {x: 0, y: -192, z: 0}
+    m_Position: {x: 12, y: -192, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110287880}
     m_Position: {x: 0, y: -252, z: 0}
@@ -1171,7 +1213,7 @@ AnimatorStateMachine:
     m_Position: {x: -372, y: -84, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110278384}
-    m_Position: {x: -408, y: -24, z: 0}
+    m_Position: {x: -420, y: -24, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 110296416}
     m_Position: {x: -432, y: 36, z: 0}
