@@ -64,8 +64,13 @@ public class GameManager : MonoBehaviour
 
 	private void CreateBG ()
 	{
+
 		GameObject bgPrefab = Resources.Load<GameObject> ("Prefabs/BGSquare");
 		GameObject parent = GameObject.Find ("Background");
+
+		GameObject grassTiles = Resources.Load<GameObject> ("Images/GrassTiles");
+
+
 		float origCurrX = ((boardSize + 2) / 2) * -1.5f;
 		float currX = origCurrX;
 		float currY = origCurrX;
@@ -75,6 +80,13 @@ public class GameManager : MonoBehaviour
 				GameObject bg = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity));
 				bg.transform.position = new Vector2 (currX, currY);
 				bg.transform.parent = parent.transform;
+
+				if (((i % 2) == 0) && ((j % 2) == 0)) {//every 2x2 squares, make a grass tile 
+
+					GameObject gt = ((GameObject)Instantiate (grassTiles, Vector2.zero, Quaternion.identity));
+					gt.transform.position = new Vector2 (currX, currY);
+					gt.transform.parent = parent.transform; 
+				}
 				currY += 1.5f;
 			}
 			currX += 1.5f;
