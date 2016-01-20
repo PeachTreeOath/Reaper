@@ -7,11 +7,12 @@ public class Player : BoardObject
 
 	private Animator animator;
 	public bool isBot;
-	public float pushDelay = 0.2f;
+	public float pushPullDelay = 0.2f;
 	public float jumpDelay = 0.2f;
 	private bool isJumping;
 	private bool isPulling;
 	private float jumpTime;
+	private float pushPullTime;
 	private int prevDirection = 3;
 	public int pullDirection = 3;
 	private bool jumpAgainstWall = false;
@@ -69,30 +70,29 @@ public class Player : BoardObject
 				}
 				animator.SetBool ("Pushing", false);
 				animator.SetBool ("Pulling", false);
+
 				if (Input.GetAxis ("Horizontal") < 0) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					pullSrcC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					direction = 1;
-					prevDirection = direction;
-					animator.SetInteger ("Prevdirection", prevDirection);
+					SetPrevDirectionVars (direction);
 				} else if (Input.GetAxis ("Horizontal") > 0) {
 					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					pullSrcC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					direction = 2;
-					prevDirection = direction;
-					animator.SetInteger ("Prevdirection", prevDirection);
+					SetPrevDirectionVars (direction);
 				} else if (Input.GetAxis ("Vertical") < 0) {
 					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					pullSrcR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					direction = 3;
-					prevDirection = direction;
-					animator.SetInteger ("Prevdirection", prevDirection);
+					SetPrevDirectionVars (direction);
 				} else if (Input.GetAxis ("Vertical") > 0) {
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					pullSrcR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					direction = 4;
-					prevDirection = direction;
-					animator.SetInteger ("Prevdirection", prevDirection);
+					SetPrevDirectionVars (direction);
+				} else {
+					pushPullTime = 0;
 				}
 
 				animator.SetInteger ("Direction", direction);
@@ -163,6 +163,15 @@ public class Player : BoardObject
 		} 
 	}
 
+	private void SetPrevDirectionVars(int direction)
+	{
+		if (direction != prevDirection) {
+			pushPullTime = 0;
+		}
+		prevDirection = direction;
+		animator.SetInteger ("Prevdirection", prevDirection);
+	}
+
 	private void Jump ()
 	{
 		jumpTime = 0;
@@ -199,6 +208,12 @@ public class Player : BoardObject
 
 	private void PushBlock (int direction, int row, int col, int destR, int destC)
 	{
+		pushPullTime += Time.deltaTime;
+		Debug.Log (pushPullTime +" > "+ pushPullDelay);
+		if (pushPullTime < pushPullDelay) {
+			Debug.Log (pushPullTime +" < "+ pushPullDelay);
+			return;
+		}
 		if (mgr.PushBlock (direction, destR, destC) || //recursive call allows you to move a row of blocks 
 		//when pushing, blocks moves first, player moves next
 		    ((mgr.GetBlockInPosition (row, col) != null) &&
@@ -206,9 +221,12 @@ public class Player : BoardObject
 		    (mgr.GetBlockInPosition (destR, destC) != null))) {
 			animator.SetBool ("Pushing", true);
 			// or both current position and dest position is on a block, and no player on the dest block
+
+	
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
 			mgr.VacatePlayerPosition (row, col); 
+
 		}
 	}
 
