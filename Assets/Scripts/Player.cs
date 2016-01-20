@@ -222,11 +222,9 @@ public class Player : BoardObject
 			animator.SetBool ("Pushing", true);
 			// or both current position and dest position is on a block, and no player on the dest block
 
-	
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
 			mgr.VacatePlayerPosition (row, col); 
-
 		}
 	}
 
