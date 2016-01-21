@@ -96,7 +96,7 @@ public class Player : BoardObject
 				}
 
 				animator.SetInteger ("Direction", direction);
-				if (Input.GetKey (KeyCode.Tab)) {
+				if (Input.GetKey (KeyCode.Tab) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 					animator.SetInteger ("Prevdirection", pullDirection);
 					if (!isPulling) {
 						pullDirection = prevDirection;
@@ -115,7 +115,6 @@ public class Player : BoardObject
 
 			} else {
 				direction = Random.Range (0, 11);
-				//pull_key = Random.Range (0, 1) == 1;
 
 				if (direction == 1) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
@@ -163,7 +162,7 @@ public class Player : BoardObject
 		} 
 	}
 
-	private void SetPrevDirectionVars(int direction)
+	private void SetPrevDirectionVars (int direction)
 	{
 		if (direction != prevDirection) {
 			pushPullTime = 0;
@@ -208,10 +207,9 @@ public class Player : BoardObject
 
 	private void PushBlock (int direction, int row, int col, int destR, int destC)
 	{
+		animator.SetBool ("Pushing", true);
 		pushPullTime += Time.deltaTime;
-		Debug.Log (pushPullTime +" > "+ pushPullDelay);
 		if (pushPullTime < pushPullDelay) {
-			Debug.Log (pushPullTime +" < "+ pushPullDelay);
 			return;
 		}
 		if (mgr.PushBlock (direction, destR, destC) || //recursive call allows you to move a row of blocks 
@@ -219,7 +217,6 @@ public class Player : BoardObject
 		    ((mgr.GetBlockInPosition (row, col) != null) &&
 		    (mgr.GetPlayerInPosition (destR, destC) == null) &&
 		    (mgr.GetBlockInPosition (destR, destC) != null))) {
-			animator.SetBool ("Pushing", true);
 			// or both current position and dest position is on a block, and no player on the dest block
 
 			Move (destR, destC);
@@ -230,10 +227,14 @@ public class Player : BoardObject
 
 	private void PullBlock (int direction, int row, int col, int destR, int destC)
 	{
+		animator.SetBool ("Pulling", true);
+		pushPullTime += Time.deltaTime;
+		if (pushPullTime < pushPullDelay) {
+			return;
+		}
 		//Don't pull if there's a player or block behind you
 		if (!mgr.CheckForBlock (destR, destC) && mgr.GetPlayerInPosition (destR, destC) == null) {
 			//pulling -- when pulling, player moves first
-			animator.SetBool ("Pulling", true);
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
 			mgr.VacatePlayerPosition (row, col); 
