@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+		GameObject globalObj = GameObject.Find ("GlobalObject"); 
+		if (globalObj != null) {
+			boardSize = globalObj.GetComponent<GlobalObject> ().boardSize; 
+		}
+
 		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
 		for (int i = 0; i < boardSize + 2; i++) {
 			for (int j = 0; j < boardSize + 2; j++) {

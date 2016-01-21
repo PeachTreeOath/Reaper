@@ -141,7 +141,7 @@ public class Player : BoardObject
 					if (mgr.CheckForBlock (pullSrcR, pullSrcC)) {
 						//If pull key held down and move fwd, just push block
 						if (pullDirection == direction) {
-							PushBlock (direction, row, col, destR, destC);
+							PushBlock (direction, row, col, destR, destC); //Ask Calvin:  I don't understand this line
 							return;
 						} else {
 							PullBlock (direction, row, col, destR, destC);
