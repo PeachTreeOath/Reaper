@@ -148,6 +148,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 38623469}
   - 212: {fileID: 38623468}
+  - 95: {fileID: 38623470}
   m_Layer: 0
   m_Name: Q1
   m_TagString: Untagged
@@ -197,6 +198,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!95 &38623470
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 38623467}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &89323209
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,6 +349,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 782051864}
   - 212: {fileID: 782051863}
+  - 95: {fileID: 782051865}
   m_Layer: 0
   m_Name: Q2
   m_TagString: Untagged
@@ -380,6 +399,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 9
+--- !u!95 &782051865
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 782051862}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1001 &1251351126
 Prefab:
   m_ObjectHideFlags: 0
@@ -505,6 +541,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1420025472}
   - 212: {fileID: 1420025471}
+  - 95: {fileID: 1420025473}
   m_Layer: 0
   m_Name: Q3
   m_TagString: Untagged
@@ -554,6 +591,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 10
+--- !u!95 &1420025473
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1420025470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1501731139
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +617,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1501731141}
   - 212: {fileID: 1501731140}
+  - 95: {fileID: 1501731142}
   m_Layer: 0
   m_Name: Q4
   m_TagString: Untagged
@@ -612,6 +667,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
+--- !u!95 &1501731142
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1501731139}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &1855553864
 GameObject:
   m_ObjectHideFlags: 0
