@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 		GameObject bgPrefab = Resources.Load<GameObject> ("Prefabs/BGSquare");
 		GameObject parent = GameObject.Find ("Background");
 
-		GameObject grassTiles = Resources.Load<GameObject> ("Images/GrassTiles");
+		GameObject grassTiles = Resources.Load<GameObject> ("Prefabs/GrassTiles");
 
 
 		float origCurrX = ((boardSize + 2) / 2) * -1.5f;
