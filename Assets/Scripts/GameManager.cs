@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
 		return true;
 	}
 
-	public bool PushBlock (int direction, int row, int col)
+	public bool PushBlock (int direction, int row, int col, bool executePush)
 	{
 		Block block = board [row, col].block;
 		if (block == null) {
@@ -172,17 +172,18 @@ public class GameManager : MonoBehaviour
 			return false;
 		}
 
-		if (PushBlock (direction, destRow, destCol)) {
+		if (PushBlock (direction, destRow, destCol, executePush)) {
+			if (executePush) {
+				block.Move (destRow, destCol);
+				board [destRow, destCol].block = block;
+				board [row, col].block = null;
 
-			block.Move (destRow, destCol);
-			board [destRow, destCol].block = block;
-			board [row, col].block = null;
-
-			if (board [row, col].player != null) {
-				//there's a player on the block, move him too
-				board [row, col].player.Move (destRow, destCol); 
-				SetPlayerPosition (destRow, destCol, board [row, col].player); 
-				VacatePlayerPosition (row, col);
+				if (board [row, col].player != null) {
+					//there's a player on the block, move him too
+					board [row, col].player.Move (destRow, destCol); 
+					SetPlayerPosition (destRow, destCol, board [row, col].player); 
+					VacatePlayerPosition (row, col);
+				}
 			}
 			return true;
 		} 

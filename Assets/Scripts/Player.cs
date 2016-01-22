@@ -8,12 +8,15 @@ public class Player : BoardObject
 	private Animator animator;
 	public bool isBot;
 	public float pushPullDelay = 0.2f;
-	public float jumpDelay = 0.2f;
+	public float landDelay = 0.2f;
 	private bool isJumping;
 	private bool isPulling;
+	private bool isLanded;
 	private float jumpTime;
+	private float landTime;
 	private float pushPullTime;
-	private int prevDirection = 3;
+	public int prevDirection = 3;
+	public int jumpDirection = 3;
 	public int pullDirection = 3;
 	private bool jumpAgainstWall = false;
 	private Vector2 jumpStartPosition;
@@ -33,7 +36,6 @@ public class Player : BoardObject
 		animator = GetComponent<Animator> ();
 	}
 		
-
 	// Update is called once per frame
 	void Update ()
 	{
@@ -41,10 +43,11 @@ public class Player : BoardObject
 
 		if (isJumping) {
 			jumpTime += Time.deltaTime * speed;
-	
 			if (jumpTime >= 1) {
 				isJumping = false;
+				isLanded = true;
 				jumpAgainstWall = false;
+				landTime = 0;
 				jumpStartPosition = Vector2.zero;
 			} else {
 				if (jumpAgainstWall) {
@@ -54,14 +57,20 @@ public class Player : BoardObject
 				}
 			}
 		}
-	
+
+		if (isLanded) {
+			landTime += Time.deltaTime;
+			if (landTime < landDelay) {
+				return;
+			}
+		}
+
 		if (!moving) {
 			int direction = 0; // L R D U
 			int destR = row;
 			int destC = col;
 			int pullSrcR = row;
 			int pullSrcC = col;
-			//bool pull_key;
 
 			if (!isBot) {
 				if (Input.GetKeyDown (KeyCode.Space) && !isBot && !isJumping) {
@@ -98,6 +107,7 @@ public class Player : BoardObject
 				animator.SetInteger ("Direction", direction);
 				if (Input.GetKey (KeyCode.Tab) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
 					animator.SetInteger ("Prevdirection", pullDirection);
+					jumpDirection = pullDirection;
 					if (!isPulling) {
 						pullDirection = prevDirection;
 						isPulling = true;
@@ -128,11 +138,6 @@ public class Player : BoardObject
 			}
 				
 			if (direction >= 1 && direction <= 4) {
-
-				//Debug.Log("player in dest position " + (mgr.GetPlayerInPosition(destR, destC)!= null));
-				//Debug.Log ("block in dest position " + (mgr.GetBlockInPosition (destR, destC) != null));
-					
-
 				if ((mgr.GetPlayerInPosition (destR, destC) != null) &&
 				    (mgr.CheckForBlock (destR, destC) == false)) {
 					return; //another player in your destination square, and no block underneath them
@@ -141,8 +146,7 @@ public class Player : BoardObject
 					if (mgr.CheckForBlock (pullSrcR, pullSrcC)) {
 						//If pull key held down and move fwd, just push block
 						if (pullDirection == direction) {
-							PushBlock (direction, row, col, destR, destC); //Ask Calvin:  I don't understand this line
-							return;
+							PushBlock (direction, row, col, destR, destC);
 						} else {
 							PullBlock (direction, row, col, destR, destC);
 							return;
@@ -156,6 +160,7 @@ public class Player : BoardObject
 					Move (destR, destC);
 					mgr.SetPlayerPosition (destR, destC, this); 
 					mgr.VacatePlayerPosition (row, col);
+					pullDirection = prevDirection;
 					return; 
 				}
 			}
@@ -164,10 +169,11 @@ public class Player : BoardObject
 
 	private void SetPrevDirectionVars (int direction)
 	{
-		if (direction != prevDirection) {
+		if (direction != prevDirection && !isPulling) {
 			pushPullTime = 0;
 		}
 		prevDirection = direction;
+		jumpDirection = direction;
 		animator.SetInteger ("Prevdirection", prevDirection);
 	}
 
@@ -179,13 +185,13 @@ public class Player : BoardObject
 		//pure movement 
 		int destR = row;
 		int destC = col;
-		if (prevDirection == 1) {
+		if (jumpDirection == 1) {
 			destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
-		} else if (prevDirection == 2) {
+		} else if (jumpDirection == 2) {
 			destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
-		} else if (prevDirection == 3) {
+		} else if (jumpDirection == 3) {
 			destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
-		} else if (prevDirection == 4) {
+		} else if (jumpDirection == 4) {
 			destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 		}
 		if (destR == row && destC == col) {
@@ -207,18 +213,24 @@ public class Player : BoardObject
 
 	private void PushBlock (int direction, int row, int col, int destR, int destC)
 	{
-		animator.SetBool ("Pushing", true);
-		pushPullTime += Time.deltaTime;
-		if (pushPullTime < pushPullDelay) {
-			return;
+		// Check if blocks are not locked w/o pushing
+		if (mgr.PushBlock (direction, destR, destC, false)) {
+			animator.SetBool ("Pushing", true);
+			pushPullTime += Time.deltaTime;
+			if (pushPullTime < pushPullDelay) {
+				return;
+			}
+		} else if (((mgr.GetBlockInPosition (row, col) != null) &&
+		           (mgr.GetPlayerInPosition (destR, destC) == null) &&
+		           (mgr.GetBlockInPosition (destR, destC) != null))) { 
+			// Walk freely over blocks if they are locked
+			Move (destR, destC);
+			mgr.SetPlayerPosition (destR, destC, this); 
+			mgr.VacatePlayerPosition (row, col); 
 		}
-		if (mgr.PushBlock (direction, destR, destC) || //recursive call allows you to move a row of blocks 
-		//when pushing, blocks moves first, player moves next
-		    ((mgr.GetBlockInPosition (row, col) != null) &&
-		    (mgr.GetPlayerInPosition (destR, destC) == null) &&
-		    (mgr.GetBlockInPosition (destR, destC) != null))) {
-			// or both current position and dest position is on a block, and no player on the dest block
 
+		// Push block if they are not locked, after push delay is over
+		if (mgr.PushBlock (direction, destR, destC, true)) {
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
 			mgr.VacatePlayerPosition (row, col); 
@@ -238,6 +250,7 @@ public class Player : BoardObject
 			Move (destR, destC);
 			mgr.SetPlayerPosition (destR, destC, this); 
 			mgr.VacatePlayerPosition (row, col); 
+			prevDirection = pullMap [animator.GetInteger ("Direction")]; //TODO: Some kind of bug still with pulling in certain direction sequences
 
 			//blocks move next to rol, col (where player was)
 			mgr.PullBlock (direction, row, col); 

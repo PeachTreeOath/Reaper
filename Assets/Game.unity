@@ -184,6 +184,10 @@ Prefab:
       propertyPath: pushPullDelay
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 11475976, guid: bc4090eec39610b4783687b821f0dca7, type: 2}
+      propertyPath: landDelay
+      value: 0.075
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bc4090eec39610b4783687b821f0dca7, type: 2}
   m_IsPrefabParent: 0
