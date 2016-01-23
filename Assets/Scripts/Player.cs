@@ -47,8 +47,9 @@ public class Player : BoardObject
 		mColorSwapTex = colorSwapTex;
 	}
 
-	public void SwapColor (SwapIndex index, Color color)
+	public void SwapColor (SwapIndex index, Color32 color32)
 	{
+		Color color = (Color)color32;
 		mSpriteColors [(int)index] = color;
 		mColorSwapTex.SetPixel ((int)index, 0, color);
 	}
@@ -57,7 +58,7 @@ public class Player : BoardObject
 	{
 		//SwapColor (SwapIndex.DarkSkin, new Color (0,169,255));
 
-		SwapColor (SwapIndex.Outline, new Color (0, 10, 10));
+		SwapColor (SwapIndex.Outline, new Color32(0, 12, 255, 255));
 		//SwapColor (SwapIndex.LightSkin, new Color (0, 169, 255));
 
 	}
