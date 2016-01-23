@@ -7,7 +7,8 @@ public class Player : BoardObject
 	public enum SwapIndex
 	{
 		Outline = 39,
-		Skin = 51,
+		LightSkin = 66,
+		DarkSkin = 51,
 		BeakLight = 101,
 		BeakDark = 89,
 	}
@@ -33,7 +34,7 @@ public class Player : BoardObject
 	private Dictionary<int,int> pullMap;
 	// Defines what directions you can pull in
 
-	public void InitColorSwapTex()
+	public void InitColorSwapTex ()
 	{
 		Texture2D colorSwapTex = new Texture2D (256, 1, TextureFormat.RGBA32, false, false);
 		colorSwapTex.filterMode = FilterMode.Point;
@@ -41,36 +42,31 @@ public class Player : BoardObject
 			colorSwapTex.SetPixel (i, 0, new Color (0f, 0f, 0f, 0f));
 		}
 		colorSwapTex.Apply ();
-		//GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", colorSwapTex);
+		GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", colorSwapTex);
 		mSpriteColors = new Color[colorSwapTex.width];
 		mColorSwapTex = colorSwapTex;
 	}
 
-	public void SwapColor(SwapIndex index, Color color)
+	public void SwapColor (SwapIndex index, Color color)
 	{
-		for (int i = -5; i < 6; i++) {
-			
-			mSpriteColors [(int)index + i] = color;
-			mColorSwapTex.SetPixel ((int)index +i, 0, color);
-		}
+		mSpriteColors [(int)index] = color;
+		mColorSwapTex.SetPixel ((int)index, 0, color);
 	}
-	private void ChangeColor()
+
+	private void ChangeColor ()
 	{
-		Color color = new Color (255, 0, 0);
-		SwapColor(SwapIndex.Skin, color);
+		//SwapColor (SwapIndex.DarkSkin, new Color (0,169,255));
+
+		SwapColor (SwapIndex.Outline, new Color (0, 10, 10));
+		//SwapColor (SwapIndex.LightSkin, new Color (0, 169, 255));
+
 	}
 	// Use this for initialization
 	void Start ()
 	{
 		InitColorSwapTex ();
 		ChangeColor ();
-		mColorSwapTex.Apply();
-		GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", mColorSwapTex);
-
-		//for (int i = 0; i < mColorSwapTex.width; i++) {
-		//	mColorSwapTex.SetPixel (i, 0, Color.blue);
-		//}
-		//mColorSwapTex.Apply ();
+		mColorSwapTex.Apply ();
 
 		pullMap = new Dictionary<int,int> ();
 		pullMap.Add (1, 2);
