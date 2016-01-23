@@ -188,6 +188,10 @@ Prefab:
       propertyPath: landDelay
       value: 0.075
       objectReference: {fileID: 0}
+    - target: {fileID: 21272256, guid: bc4090eec39610b4783687b821f0dca7, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1c2c83de80c5a304eadd847deec2ebbd, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bc4090eec39610b4783687b821f0dca7, type: 2}
   m_IsPrefabParent: 0
