@@ -41,22 +41,31 @@ public class Player : BoardObject
 			colorSwapTex.SetPixel (i, 0, new Color (0f, 0f, 0f, 0f));
 		}
 		colorSwapTex.Apply ();
-		GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", colorSwapTex);
+		//GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", colorSwapTex);
 		mSpriteColors = new Color[colorSwapTex.width];
 		mColorSwapTex = colorSwapTex;
 	}
 
 	public void SwapColor(SwapIndex index, Color color)
 	{
-		mSpriteColors [(int)index] = color;
-		mColorSwapTex.SetPixel ((int)index, 0, color);
+		for (int i = -5; i < 6; i++) {
+			
+			mSpriteColors [(int)index + i] = color;
+			mColorSwapTex.SetPixel ((int)index +i, 0, color);
+		}
 	}
-
+	private void ChangeColor()
+	{
+		Color color = new Color (255, 0, 0);
+		SwapColor(SwapIndex.Skin, color);
+	}
 	// Use this for initialization
 	void Start ()
 	{
 		InitColorSwapTex ();
 		ChangeColor ();
+		mColorSwapTex.Apply();
+		GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", mColorSwapTex);
 
 		//for (int i = 0; i < mColorSwapTex.width; i++) {
 		//	mColorSwapTex.SetPixel (i, 0, Color.blue);
@@ -73,11 +82,7 @@ public class Player : BoardObject
 		animator = GetComponent<Animator> ();
 	}
 
-	private void ChangeColor()
-	{
-		Color color = new Color (23, 14, 44);
-		SwapColor(SwapIndex.Skin, color);
-	}
+
 
 	// Update is called once per frame
 	void Update ()
