@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class Player : BoardObject
 {
+	public enum SwapIndex
+	{
+		Outline = 39,
+		Skin = 51,
+		BeakLight = 101,
+		BeakDark = 89,
+	}
+
+	private Texture2D mColorSwapTex;
+	private Color[] mSpriteColors;
 
 	private Animator animator;
 	public bool isBot;
@@ -23,9 +33,36 @@ public class Player : BoardObject
 	private Dictionary<int,int> pullMap;
 	// Defines what directions you can pull in
 
+	public void InitColorSwapTex()
+	{
+		Texture2D colorSwapTex = new Texture2D (256, 1, TextureFormat.RGBA32, false, false);
+		colorSwapTex.filterMode = FilterMode.Point;
+		for (int i = 0; i < colorSwapTex.width; i++) {
+			colorSwapTex.SetPixel (i, 0, new Color (0f, 0f, 0f, 0f));
+		}
+		colorSwapTex.Apply ();
+		GetComponent<SpriteRenderer> ().material.SetTexture ("_SwapTex", colorSwapTex);
+		mSpriteColors = new Color[colorSwapTex.width];
+		mColorSwapTex = colorSwapTex;
+	}
+
+	public void SwapColor(SwapIndex index, Color color)
+	{
+		mSpriteColors [(int)index] = color;
+		mColorSwapTex.SetPixel ((int)index, 0, color);
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
+		InitColorSwapTex ();
+		ChangeColor ();
+
+		//for (int i = 0; i < mColorSwapTex.width; i++) {
+		//	mColorSwapTex.SetPixel (i, 0, Color.blue);
+		//}
+		//mColorSwapTex.Apply ();
+
 		pullMap = new Dictionary<int,int> ();
 		pullMap.Add (1, 2);
 		pullMap.Add (2, 1);
@@ -35,7 +72,13 @@ public class Player : BoardObject
 		boardType = BoardType.PLAYER;
 		animator = GetComponent<Animator> ();
 	}
-		
+
+	private void ChangeColor()
+	{
+		Color color = new Color (23, 14, 44);
+		SwapColor(SwapIndex.Skin, color);
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
