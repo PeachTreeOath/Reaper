@@ -32,9 +32,11 @@ public class Player : BoardObject
 	public int prevDirection = 3;
 	public int jumpDirection = 3;
 	public int pullDirection = 3;
+	public int numPlayer;
 	private bool jumpAgainstWall = false;
 	private Vector2 jumpStartPosition;
 	private Dictionary<int,int> pullMap;
+
 	// Defines what directions you can pull in
 
 	public void InitColorSwapTex ()
@@ -93,6 +95,7 @@ public class Player : BoardObject
 	void Start ()
 	{
 		InitColorSwapTex ();
+		ChangeColor (numPlayer);
 
 		pullMap = new Dictionary<int,int> ();
 		pullMap.Add (1, 2);

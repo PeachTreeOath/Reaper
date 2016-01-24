@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 		}
 		CheckForMatches ();
 		for (int i = 0; i < 3; i++) {
-			//SpawnBotPlayer ();
+			SpawnBotPlayer (i+1);
 
 		}
 
@@ -416,7 +416,7 @@ public class GameManager : MonoBehaviour
 		Application.LoadLevel (3); //game over
 	}
 
-	private void SpawnBotPlayer ()
+	private void SpawnBotPlayer (int numPlayer)
 	{
 		while (true) {
 			int row = Random.Range (0, boardSize + 1);
@@ -428,6 +428,7 @@ public class GameManager : MonoBehaviour
 				player.SetBoardPosition (row, col); 	
 				board [row, col].player = player;
 				player.isBot = true; 
+				player.numPlayer = numPlayer;
 				break;
 			}
 		}
