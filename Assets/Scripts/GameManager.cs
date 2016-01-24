@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 	public int boardSize = 7;
 	// ONLY use odd numbered board sizes, game is only meant for sizes 5,7,9!
 	private BoardSquare[,] board;
+	private BoardSquare[,] spawningBoard;
 	private float lastSpawnTime;
 	private GameObject boardParent;
 	private Block previewBlock1;
@@ -44,16 +45,13 @@ public class GameManager : MonoBehaviour
 		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
 		//TODO delete
-		for (int i = 0; i < boardSize * 2; i++) {
+	/*	for (int i = 0; i < boardSize * 2; i++) {
 			SpawnBlock ();
-		}
-		CheckForMatches ();
+		}*/
+		//CheckForMatches ();
 		for (int i = 0; i < 3; i++) {
-			SpawnBotPlayer (i+1);
-
+			//SpawnBotPlayer (i+1);
 		}
-
-
 	}
 
 	//TODO delete this in final game
@@ -71,26 +69,46 @@ public class GameManager : MonoBehaviour
 			lastSpawnTime = Time.time;
 		}
 
-		CreatePreviewBlocks ();
+		//CreatePreviewBlocks ();
 
+		if(Input.GetKeyDown(KeyCode.E))
+			{
+				SpawnBlock();
+			}
 //		Debug.Log (numBlocks);
 		if (numBlocks < 0) {
 			Application.LoadLevel (3);
 		}
-		else if (numBlocks < 10) {
-
-			PlacePreviewBlocksOnBoard ();
-		}
+		//else if (numBlocks < 10) {
+		//	PlacePreviewBlocksOnBoard ();
+		//}
 	}
 
 	private void CreateBG ()
 	{
-
+		GameObject sidePanelL = Resources.Load<GameObject> ("Prefabs/SidePanelL");
+		GameObject sidePanelR = Resources.Load<GameObject> ("Prefabs/SidePanelR");
 		GameObject bgPrefab = Resources.Load<GameObject> ("Prefabs/BGSquare");
+		GameObject bgSidePrefab = Resources.Load<GameObject> ("Prefabs/BGSideSquare");
+		GameObject grassTiles = Resources.Load<GameObject> ("Prefabs/GrassTiles");
 		GameObject parent = GameObject.Find ("Background");
 
-		GameObject grassTiles = Resources.Load<GameObject> ("Prefabs/GrassTiles");
-
+		if (boardSize == 5) {
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-8,0), Quaternion.identity));
+			panelLObj.transform.parent = parent.transform;
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(8,0), Quaternion.identity));
+			panelRObj.transform.parent = parent.transform;
+		} else if (boardSize == 7) {
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-9.5f,0), Quaternion.identity));
+			panelLObj.transform.parent = parent.transform;
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(9.5f,0), Quaternion.identity));
+			panelRObj.transform.parent = parent.transform;
+		} else if (boardSize == 9) {
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-11,0), Quaternion.identity));
+			panelLObj.transform.parent = parent.transform;
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(11,0), Quaternion.identity));
+			panelRObj.transform.parent = parent.transform;
+		}
 
 		float origCurrX = ((boardSize + 2) / 2) * -1.5f;
 		float currX = origCurrX;
@@ -98,7 +116,13 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < boardSize + 2; i++) {
 			currY = origCurrX;
 			for (int j = 0; j < boardSize + 2; j++) {
-				GameObject bg = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity));
+				GameObject pf;
+				if (i == 0 || j == 0 || i == boardSize + 1 || j == boardSize + 1) {
+					pf = bgSidePrefab;
+				} else {
+					pf = bgPrefab;
+				}
+				GameObject bg = ((GameObject)Instantiate (pf, Vector2.zero, Quaternion.identity));
 				bg.transform.position = new Vector2 (currX, currY);
 				bg.transform.parent = parent.transform;
 
@@ -182,7 +206,9 @@ public class GameManager : MonoBehaviour
 		if (block == null) {
 			return true;
 		}
-
+		if (block.moving) {
+			return false;
+		}
 		int destRow = row;
 		int destCol = col;
 

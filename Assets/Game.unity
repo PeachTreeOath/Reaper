@@ -358,7 +358,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnSpeed: 3
   moveSpeed: 3
-  boardSize: 7
+  boardSize: 5
 --- !u!4 &2045379230
 Transform:
   m_ObjectHideFlags: 0

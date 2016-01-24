@@ -16,8 +16,8 @@ public class BoardObject : MonoBehaviour
 	public int col;
 	public int destRow=0;
 	public int destCol=0;
-
-	protected bool moving;
+	public bool finishedSpawning;
+	public bool moving;
 	protected float moveTime;
 	protected GameManager mgr;
 
@@ -25,12 +25,15 @@ public class BoardObject : MonoBehaviour
 	{
 		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		speed = mgr.moveSpeed;
-	//	SetDestToPos ();
-	//	transform.position = GetBoardPosition (row, col);
+		SetDestToPos ();
+		transform.position = GetBoardPosition (row, col);
 	}
 
 	protected void Update ()
 	{
+		if (!finishedSpawning)
+			return;
+		
 		if (moving) {
 			moveTime += Time.deltaTime * speed;
 			transform.position = Vector2.Lerp (GetBoardPosition (row, col), GetBoardPosition (destRow, destCol), moveTime);
@@ -43,6 +46,9 @@ public class BoardObject : MonoBehaviour
 
 	public void Move (int row, int col)
 	{
+		if (!finishedSpawning)
+			return;
+		
 		if (row == destRow && col == destCol)
 			return; 
 		destRow = row;
@@ -53,7 +59,6 @@ public class BoardObject : MonoBehaviour
 
 	public Vector2 GetBoardPosition (int row, int col)
 	{
-
 		float x_offset = ((mgr.boardSize + 2) / 2) * -1.5f; //int division deletes the remainder
 		float y_offset = ((mgr.boardSize + 2) / 2) * 1.5f;
 

@@ -8,16 +8,25 @@ public class Block : BoardObject
 	public int shape; 
 	public bool toDelete;
 
+	private Warp warp;
+
 	// Use this for initialization
 	void Start ()
 	{
 		boardType = BoardType.BLOCK;
 		SetBlockProperties ();
+
+		GameObject warpObj = Resources.Load<GameObject>("Prefabs/Warp");
+		warp = ((GameObject)Instantiate (warpObj, transform.position, Quaternion.identity)).GetComponent<Warp>();
+		warp.transform.parent = transform;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if (!finishedSpawning) {
+			return;
+		}
 		base.Update ();
 	}
 

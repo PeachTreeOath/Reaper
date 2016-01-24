@@ -38,11 +38,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 2203241321
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Block
     uniqueID: 2349132703
+    locked: 0
+  - name: Warp
+    uniqueID: 175741015
     locked: 0
   - name: Player
     uniqueID: 656989613

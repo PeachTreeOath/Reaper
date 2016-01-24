@@ -103,6 +103,8 @@ public class Player : BoardObject
 		pullMap.Add (3, 4);
 		pullMap.Add (4, 3);
 
+		finishedSpawning = true;
+
 		boardType = BoardType.PLAYER;
 		animator = GetComponent<Animator> ();
 	}
