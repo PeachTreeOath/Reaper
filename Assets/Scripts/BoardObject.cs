@@ -14,8 +14,8 @@ public class BoardObject : MonoBehaviour
 	public float speed;
 	public int row;
 	public int col;
-	public int destRow;
-	public int destCol;
+	public int destRow=0;
+	public int destCol=0;
 
 	protected bool moving;
 	protected float moveTime;
@@ -25,8 +25,8 @@ public class BoardObject : MonoBehaviour
 	{
 		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		speed = mgr.moveSpeed;
-		SetDestToPos ();
-		transform.position = GetBoardPosition (row, col);
+	//	SetDestToPos ();
+	//	transform.position = GetBoardPosition (row, col);
 	}
 
 	protected void Update ()

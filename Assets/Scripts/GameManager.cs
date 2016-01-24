@@ -73,7 +73,11 @@ public class GameManager : MonoBehaviour
 
 		CreatePreviewBlocks ();
 
-		if (numBlocks < 10) {
+//		Debug.Log (numBlocks);
+		if (numBlocks < 0) {
+			Application.LoadLevel (3);
+		}
+		else if (numBlocks < 10) {
 
 			PlacePreviewBlocksOnBoard ();
 		}
@@ -241,7 +245,9 @@ public class GameManager : MonoBehaviour
 				if (block != null) {
 					if (block.toDelete) {
 						GameObject.Destroy (block.gameObject);
-						numBlocks--; 
+						numBlocks = numBlocks - 1; 
+						//Debug.Log (numBlocks);
+						board[i,j].block = null; 
 					}
 				}
 			}
@@ -374,7 +380,7 @@ public class GameManager : MonoBehaviour
 		int row; 
 		int col; 
 
-		while (numBlocks < maxBlocks){
+		while (numBlocks < maxBlocks-5){
 
 			if ((previewBlock1 == null) && (previewBlock2 == null)) {
 				return; 

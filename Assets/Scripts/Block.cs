@@ -13,7 +13,6 @@ public class Block : BoardObject
 	{
 		boardType = BoardType.BLOCK;
 		SetBlockProperties ();
-		mgr.PlaceBlock (this, destRow, destCol);
 	}
 	
 	// Update is called once per frame
