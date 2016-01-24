@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
 	private BoardSquare[,] board;
 	private float lastSpawnTime;
 	private GameObject boardParent;
+	private Block previewBlock1;
+	private Block previewBlock2;
+
+	private int numBlocks = 0;
+	private int maxBlocks = 0;
 
 	// Use this for initialization
 	void Awake ()
@@ -27,13 +32,14 @@ public class GameManager : MonoBehaviour
 
 			}
 		}
+		maxBlocks = boardSize * boardSize; 
 	}
 
 	void Start ()
 	{
 		CreateBG ();
 		if (boardSize > 5) {
-			GameObject.Find ("Main Camera").GetComponent<Camera>().orthographicSize += boardSize - 5;
+			GameObject.Find ("Main Camera").GetComponent<Camera> ().orthographicSize += boardSize - 5;
 		}
 		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
@@ -55,8 +61,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if(!initMatch)
-		{
+		if (!initMatch) {
 			CheckForMatches ();
 			initMatch = true;
 		}
@@ -64,6 +69,13 @@ public class GameManager : MonoBehaviour
 		if (lastSpawnTime + spawnSpeed < Time.time) {
 			//	SpawnBlock ();
 			lastSpawnTime = Time.time;
+		}
+
+		CreatePreviewBlocks ();
+
+		if (numBlocks < 10) {
+
+			PlacePreviewBlocksOnBoard ();
 		}
 	}
 
@@ -96,6 +108,17 @@ public class GameManager : MonoBehaviour
 			}
 			currX += 1.5f;
 		}
+
+		//create preview block squares
+		GameObject pb1 = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity)); 
+		pb1.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquare");
+		pb1.transform.position = new Vector2 (origCurrX - 3F, -1F * origCurrX);
+		pb1.transform.parent = parent.transform;
+
+		GameObject pb2 = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity)); 
+		pb2.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquare");
+		pb2.transform.position = new Vector2 (currX + 1.5F, -1F * origCurrX);
+		pb2.transform.parent = parent.transform;
 	}
 
 	public bool CheckForBlock (int row, int col) //TODO is this necessary?
@@ -218,6 +241,7 @@ public class GameManager : MonoBehaviour
 				if (block != null) {
 					if (block.toDelete) {
 						GameObject.Destroy (block.gameObject);
+						numBlocks--; 
 					}
 				}
 			}
@@ -237,7 +261,7 @@ public class GameManager : MonoBehaviour
 		
 		for (int i = 1; i < length; i++) {
 			if (firstBlock.color == 1) {
-				firstBlock = board [row , col+i].block;
+				firstBlock = board [row, col + i].block;
 				if (firstBlock == null)
 					return;
 				matchLength += 1; 
@@ -325,9 +349,65 @@ public class GameManager : MonoBehaviour
 				block.transform.parent = boardParent.transform;
 				block.SetBoardPosition (row, col);
 				PlaceBlock (block, row, col);
+				numBlocks++;
 				break;
 			}
 		}
+	}
+
+	private void CreatePreviewBlocks ()
+	{
+		GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
+		if (previewBlock1 == null) {
+			previewBlock1 = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
+			previewBlock1.SetBoardPosition (0, -2);
+
+		}
+		if (previewBlock2 == null) {
+			previewBlock2 = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
+			previewBlock2.SetBoardPosition (0, boardSize + 3);
+		}
+	}
+
+	private void PlacePreviewBlocksOnBoard ()
+	{
+		int row; 
+		int col; 
+
+		while (numBlocks < maxBlocks){
+
+			if ((previewBlock1 == null) && (previewBlock2 == null)) {
+				return; 
+			}
+
+			if (previewBlock1) {
+				
+				row = Random.Range (1, boardSize);
+				col = Random.Range (1, boardSize);
+
+				if (board [row, col].block == null) {
+					previewBlock1.transform.parent = boardParent.transform;
+					previewBlock1.SetBoardPosition (row, col);
+					PlaceBlock (previewBlock1, row, col);
+					previewBlock1 = null; 
+					numBlocks++; 
+				}
+			}
+
+			if (previewBlock2) {
+				row = Random.Range (1, boardSize);
+				col = Random.Range (1, boardSize);
+
+				if (board [row, col].block == null) {
+					previewBlock2.transform.parent = boardParent.transform;
+					previewBlock2.SetBoardPosition (row, col);
+					PlaceBlock (previewBlock2, row, col);
+					previewBlock2 = null; 
+					numBlocks++;
+				}
+			}
+		}
+		Application.LoadLevel (3); //game over
 	}
 
 	private void SpawnBotPlayer ()
