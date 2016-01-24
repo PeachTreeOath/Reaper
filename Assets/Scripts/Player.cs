@@ -194,17 +194,22 @@ public class Player : BoardObject
 				}
 
 			} else {
-				direction = Random.Range (0, 11);
+				direction = Random.Range (0, 20);
 
 				if (direction == 1) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
+					animator.SetInteger ("Direction", direction);
 				} else if (direction == 2) {
 					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
+					animator.SetInteger ("Direction", direction);
 				} else if (direction == 3) {
 					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
+					animator.SetInteger ("Direction", direction);
 				} else if (direction == 4) {
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
+					animator.SetInteger ("Direction", direction);
 				}
+
 			}
 				
 			if (direction >= 1 && direction <= 4) {
