@@ -8,9 +8,12 @@ public class Player : BoardObject
 	{
 		Outline = 39,
 		LightSkin = 66,
+		LightSkinOff = 46,
+		// 1 pixel mistake
 		DarkSkin = 51,
 		BeakLight = 101,
 		BeakDark = 89,
+		Rune = 161,
 	}
 
 	private Texture2D mColorSwapTex;
@@ -52,22 +55,44 @@ public class Player : BoardObject
 		Color color = (Color)color32;
 		mSpriteColors [(int)index] = color;
 		mColorSwapTex.SetPixel ((int)index, 0, color);
+
+		//For fixing mistakes with the sprite
+		if (index == SwapIndex.LightSkin) {
+			mSpriteColors [(int)SwapIndex.DarkSkin] = color;
+			mColorSwapTex.SetPixel ((int)SwapIndex.DarkSkin, 0, color);
+			mSpriteColors [(int)SwapIndex.LightSkinOff] = color;
+			mColorSwapTex.SetPixel ((int)SwapIndex.LightSkinOff, 0, color);
+		}
 	}
 
-	private void ChangeColor ()
+	public void ChangeColor (int playerNum)
 	{
-		//SwapColor (SwapIndex.DarkSkin, new Color (0,169,255));
-
-		SwapColor (SwapIndex.Outline, new Color32(0, 12, 255, 255));
-		//SwapColor (SwapIndex.LightSkin, new Color (0, 169, 255));
-
+		switch (playerNum) {
+		case 0:
+			SwapColor (SwapIndex.LightSkin, new Color32 (66, 33, 0, 255));
+			break;
+		case 1:
+			SwapColor (SwapIndex.Outline, new Color32 (0, 12, 40, 255));
+			SwapColor (SwapIndex.LightSkin, new Color32 (0, 58, 180, 255));
+			SwapColor (SwapIndex.Rune, new Color32 (0, 100, 64, 255));
+			break;
+		case 2:
+			SwapColor (SwapIndex.Outline, new Color32 (38, 0, 0, 255));
+			SwapColor (SwapIndex.LightSkin, new Color32 (148, 0, 11, 255));
+			SwapColor (SwapIndex.Rune, new Color32 (175, 0, 161, 255));
+			break;
+		case 3:
+			SwapColor (SwapIndex.Outline, new Color32 (38, 38, 0, 255));
+			SwapColor (SwapIndex.LightSkin, new Color32 (160, 160, 0, 255));
+			SwapColor (SwapIndex.Rune, new Color32 (18, 0, 159, 255));
+			break;
+		}
+		mColorSwapTex.Apply ();
 	}
 	// Use this for initialization
 	void Start ()
 	{
 		InitColorSwapTex ();
-		ChangeColor ();
-		mColorSwapTex.Apply ();
 
 		pullMap = new Dictionary<int,int> ();
 		pullMap.Add (1, 2);
