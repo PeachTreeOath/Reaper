@@ -5,7 +5,6 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
 
-	public float spawnSpeed = 3;
 	public float moveSpeed = 3;
 	public int boardSize = 7;
 	// ONLY use odd numbered board sizes, game is only meant for sizes 5,7,9!
@@ -22,6 +21,10 @@ public class GameManager : MonoBehaviour
 	private SpawnBlock spawnBlock;
 	private Text stageText;
 	private Text scoreText;
+	private int stage;
+	private int score;
+	public int difficulty;
+	private float spawnSpeed;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -50,8 +53,8 @@ public class GameManager : MonoBehaviour
 		spawnBlockRes = Resources.Load<GameObject> ("Prefabs/SpawnBlock");
 		matchRes = Resources.Load<GameObject> ("Prefabs/Match");
 
-		stageText = GameObject.Find ("StageText").GetComponent<Text>();
-		scoreText = GameObject.Find ("ScoreText").GetComponent<Text>();
+		stageText = GameObject.Find ("StageText").GetComponent<Text> ();
+		scoreText = GameObject.Find ("ScoreText").GetComponent<Text> ();
 
 		CreateBG ();
 		if (boardSize == 7) {
@@ -66,6 +69,7 @@ public class GameManager : MonoBehaviour
 			//SpawnBotPlayer (i+1);
 		}
 
+		NewStage ();
 		CreateNextBlock ();
 	}
 
@@ -77,11 +81,6 @@ public class GameManager : MonoBehaviour
 			if (GetBlockInPosition (spawnBlock.mRow, spawnBlock.mCol)) {
 				RetrySpawn ();
 			}
-		}
-
-		if (lastSpawnTime + spawnSpeed < Time.time) {
-			//	SpawnBlock ();
-			lastSpawnTime = Time.time;
 		}
 	}
 
@@ -275,8 +274,7 @@ public class GameManager : MonoBehaviour
 					if (block.toDelete) {
 						Instantiate (matchRes, block.transform.position, Quaternion.identity);
 						GameObject.Destroy (block.gameObject);
-						numBlocks = numBlocks - 1; 
-						//Debug.Log (numBlocks);
+						numBlocks = numBlocks - 1;
 						board [i, j].block = null; 
 					}
 				}
@@ -286,7 +284,6 @@ public class GameManager : MonoBehaviour
 
 	private void MatchH (int row, int col, int length)
 	{
-
 		bool matchColor = true;
 		bool matchShape = true;
 		int matchLength = 1; 
@@ -300,6 +297,9 @@ public class GameManager : MonoBehaviour
 				firstBlock = board [row, col + i].block;
 				if (firstBlock == null)
 					return;
+				if (firstBlock.hMatched) {
+					return;
+				}
 				matchLength += 1; 
 			} else {
 				break;
@@ -315,13 +315,41 @@ public class GameManager : MonoBehaviour
 			if (firstBlock == null || newBlock == null || firstBlock.color == 0 || newBlock.color == 0) {
 				return;
 			}
+			if (firstBlock.hMatched) {
+				return;
+			}
+
 			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
 				matchColor = false; 
 			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 1))
 				matchShape = false;
 		}
 
+		if (matchShape && matchColor) {
+			if (length == 5) {
+				AddScore (20000);
+			} else if (length == 4) {
+				AddScore (7000);
+			} else if (length == 3) {
+				AddScore (2500);
+			}
+		} else if (matchShape || matchColor) {
+			if (length == 5) {
+				AddScore (1000);
+			} else if (length == 4) {
+				AddScore (500);
+			} else if (length == 3) {
+				AddScore (100);
+			}
+		}
 		if (matchShape || matchColor) {
+			if (length == 5) {
+				AddScore (1000);
+			} else if (length == 4) {
+				AddScore (500);
+			} else if (length == 3) {
+				AddScore (100);
+			}
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row, col + i].block;
 				newBlock.toDelete = true;
@@ -346,6 +374,9 @@ public class GameManager : MonoBehaviour
 				firstBlock = board [row + i, col].block; 
 				if (firstBlock == null)
 					return;
+				if (firstBlock.vMatched) {
+					return;
+				}
 				matchLength += 1; 
 			} else {
 				break;
@@ -359,19 +390,64 @@ public class GameManager : MonoBehaviour
 			if (firstBlock == null || newBlock == null || firstBlock.color == 0 || newBlock.color == 0) {
 				return;
 			}
-	
+			if (firstBlock.vMatched) {
+				return;
+			}
+
 			if ((firstBlock.color != newBlock.color) && (newBlock.color != 1)) //not wild card
 				matchColor = false; 
 			if ((firstBlock.shape != newBlock.shape) && (newBlock.color != 1))
 				matchShape = false;
 		}
 
+		if (matchShape && matchColor) {
+			if (length == 5) {
+				AddScore (20000);
+			} else if (length == 4) {
+				AddScore (7000);
+			} else if (length == 3) {
+				AddScore (2500);
+			}
+		} else if (matchShape || matchColor) {
+			if (length == 5) {
+				AddScore (1000);
+			} else if (length == 4) {
+				AddScore (500);
+			} else if (length == 3) {
+				AddScore (100);
+			}
+		}
 		if (matchShape || matchColor) {
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row + i, col].block;
 				newBlock.toDelete = true;
+				newBlock.vMatched = true;
 			}
 		}
+
+	}
+
+	private void AddScore (int addScore)
+	{
+		score += addScore;
+		int newLevel = score / 700;
+		if (newLevel != stage) {
+			stage = newLevel;
+			NewStage ();
+		}
+		scoreText.text = "" + score;
+	}
+
+	private void NewStage ()
+	{
+		int speedDifficulty = stage / 10;
+		spawnSpeed = 2 - ((stage % 10) * 0.1f);
+		spawnSpeed -= speedDifficulty * 0.2f;
+		if (speedDifficulty > 2) {
+			speedDifficulty = 2;
+		}
+		difficulty = speedDifficulty;
+		stageText.text = "" + (stage + 1);
 	}
 
 	public void SpawnBlock ()
@@ -400,8 +476,8 @@ public class GameManager : MonoBehaviour
 	private void SpawnSpawner ()
 	{
 		while (numBlocks < maxBlocks) {
-			int row = Random.Range (1, boardSize+1);
-			int col = Random.Range (1, boardSize+1);
+			int row = Random.Range (1, boardSize + 1);
+			int col = Random.Range (1, boardSize + 1);
 
 			if (board [row, col].block == null) {
 				spawnBlock = ((GameObject)Instantiate (spawnBlockRes, Vector2.zero, Quaternion.identity)).GetComponent<SpawnBlock> ();
@@ -415,8 +491,8 @@ public class GameManager : MonoBehaviour
 	private void RetrySpawn ()
 	{
 		while (numBlocks < maxBlocks) {
-			int row = Random.Range (1, boardSize+1);
-			int col = Random.Range (1, boardSize+1);
+			int row = Random.Range (1, boardSize + 1);
+			int col = Random.Range (1, boardSize + 1);
 
 			if (board [row, col].block == null) {
 				spawnBlock.SetBoardPosition (row, col);
@@ -446,13 +522,17 @@ public class GameManager : MonoBehaviour
 			previewBlockR = ((GameObject)Instantiate (previewBlockRes, previewPosBlock9R, Quaternion.identity)).GetComponent<PreviewBlock> ();
 		}
 
-		int newColor = Random.Range (1, 7);
-		int newShape = Random.Range (1, 6); 
+		int newColor = Random.Range (2, 8 + difficulty);
+		int wildCardRoll = Random.Range (0, 100);
+		if (wildCardRoll < 4) {
+			newColor = 1;
+		}
+		int newShape = Random.Range (1, 7 + difficulty); 
 		previewBlockL.SetBlockProperties (newColor, newShape);
 		previewBlockR.SetBlockProperties (newColor, newShape);
 
 		nextBlock = previewBlockL;
-		nextBlock.SetExpire (2);
+		nextBlock.SetExpire (spawnSpeed);
 	}
 
 	public void ExpirePreview ()

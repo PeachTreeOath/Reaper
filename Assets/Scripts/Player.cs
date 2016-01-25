@@ -218,31 +218,44 @@ public class Player : BoardObject
 			}
 				
 			if (direction >= 1 && direction <= 4) {
+				
 				if ((mgr.GetPlayerInPosition (destR, destC) != null) &&
 				    (mgr.CheckForBlock (destR, destC) == false)) {
 					return; //another player in your destination square, and no block underneath them
 
-				} else if (isPulling) {
+				} 
+
+				if (isPulling) {
 					if (mgr.CheckForBlock (pullSrcR, pullSrcC)) {
 						//If pull key held down and move fwd, just push block
 						if (pullDirection == direction) {
 							PushBlock (direction, row, col, destR, destC);
+							return;
 						} else {
 							PullBlock (direction, row, col, destR, destC);
 							return;
 						}
 					}
 				} 
+
+				// Push block
 				if (mgr.CheckForBlock (destR, destC)) {
 					PushBlock (direction, row, col, destR, destC);
-				} else {
-					//pure movement 
-					Move (destR, destC);
-					mgr.SetPlayerPosition (destR, destC, this); 
-					mgr.VacatePlayerPosition (row, col);
-					pullDirection = prevDirection;
-					return; 
+					return;
+				} 
+
+				// Jump off block if on edge block
+				if (!mgr.CheckForBlock (destR, destC) && mgr.GetBlockInPosition (row, col) != null) {
+					Jump ();
+					return;
 				}
+
+				//pure movement 
+				Move (destR, destC);
+				mgr.SetPlayerPosition (destR, destC, this); 
+				mgr.VacatePlayerPosition (row, col);
+				pullDirection = prevDirection;
+				return; 
 			}
 		} 
 	}

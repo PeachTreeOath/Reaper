@@ -28,13 +28,17 @@ public class Block : BoardObject
 	{
 		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
 		if (inColor == 0) {
-			int newColor = Random.Range (1, 8);
+			int newColor = Random.Range (2, 8 + mgr.difficulty);
+			int wildCardRoll = Random.Range (0, 100);
+			if (wildCardRoll < 4) {
+				newColor = 1;
+			}
 			color = newColor;
 		} else {
 			color = inColor;
 		}
 		if (inShape == 0) {
-			int newShape = Random.Range (1, 7); 
+			int newShape = Random.Range (1, 7 + mgr.difficulty); 
 			shape = newShape;
 		} else {
 			shape = inShape;
