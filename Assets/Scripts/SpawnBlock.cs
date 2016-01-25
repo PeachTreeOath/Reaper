@@ -1,39 +1,77 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Block : BoardObject
+public class SpawnBlock : MonoBehaviour
 {
 
 	public int color;
 	public int shape;
-	public bool toDelete;
+	public int mRow;
+	public int mCol;
 
+	private float expireTime;
+	private float currTime;
+	private GameManager mgr;
+	private Warp warp;
+	private GameObject warpObj;
 
 	// Use this for initialization
 	void Start ()
 	{
-		boardType = BoardType.BLOCK;
-		//SetBlockProperties (0,0);
-
+		warpObj = Resources.Load<GameObject> ("Prefabs/Warp");
+		warp = ((GameObject)Instantiate (warpObj, transform.position, Quaternion.identity)).GetComponent<Warp> ();
+		warp.transform.parent = transform;
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
 	{
-		base.Update ();
+
 	}
 
+	public void Retry()
+	{
+		Destroy (warp.gameObject);
+		warp = ((GameObject)Instantiate (warpObj, transform.position, Quaternion.identity)).GetComponent<Warp> ();
+		warp.transform.parent = transform;
+	}
+
+	public void Delete ()
+	{
+		mgr.SpawnBlock ();
+	}
+
+	public Vector2 GetBoardPosition (int r, int c)
+	{
+		float x_offset = ((mgr.boardSize + 2) / 2) * -1.5f; //int division deletes the remainder
+		float y_offset = ((mgr.boardSize + 2) / 2) * 1.5f;
+
+		float xPos = x_offset + c * 1.5f;
+		float yPos = y_offset - r * 1.5f;
+		return new Vector2 (xPos, yPos);
+	}
+
+	public void SetBoardPosition (int inRow, int inCol)
+	{
+		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
+
+		mRow = inRow;
+		mCol = inCol;
+		transform.position = GetBoardPosition (inRow, inCol);
+	}
+
+	// Keep in sync with Block.cs
 	public void SetBlockProperties (int inColor, int inShape)
 	{
 		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
 		if (inColor == 0) {
-			int newColor = Random.Range (1, 8);
+			int newColor = Random.Range (1, 7);
 			color = newColor;
 		} else {
 			color = inColor;
 		}
 		if (inShape == 0) {
-			int newShape = Random.Range (1, 7); 
+			int newShape = Random.Range (1, 6); 
 			shape = newShape;
 		} else {
 			shape = inShape;
@@ -104,12 +142,5 @@ public class Block : BoardObject
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
 			break;
 		}
-
-	}
-
-	protected override void SetDestToPos ()
-	{
-		base.SetDestToPos ();
-		mgr.CheckForMatches ();
 	}
 }

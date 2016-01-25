@@ -74,10 +74,10 @@ public class PreviewBlock : MonoBehaviour
 			blockSprite.material = Resources.Load<Material> ("Images/RedMat");
 			break;
 		case 6:
-			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
+			blockSprite.material = Resources.Load<Material> ("Images/PurpleMat");
 			break;
 		case 7:
-			blockSprite.material = Resources.Load<Material> ("Images/PinkMat");
+			blockSprite.material = Resources.Load<Material> ("Images/GreyMat");
 			break;
 		case 8:
 			blockSprite.material = Resources.Load<Material> ("Images/DarkBlueMat");

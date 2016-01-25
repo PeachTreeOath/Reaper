@@ -31,9 +31,6 @@ public class BoardObject : MonoBehaviour
 
 	protected void Update ()
 	{
-		if (!finishedSpawning)
-			return;
-		
 		if (moving) {
 			moveTime += Time.deltaTime * speed;
 			transform.position = Vector2.Lerp (GetBoardPosition (row, col), GetBoardPosition (destRow, destCol), moveTime);
@@ -46,9 +43,6 @@ public class BoardObject : MonoBehaviour
 
 	public void Move (int row, int col)
 	{
-		if (!finishedSpawning)
-			return;
-		
 		if (row == destRow && col == destCol)
 			return; 
 		destRow = row;

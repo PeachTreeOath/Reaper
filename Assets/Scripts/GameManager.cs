@@ -13,9 +13,12 @@ public class GameManager : MonoBehaviour
 	private float lastSpawnTime;
 	private GameObject boardParent;
 	private GameObject previewBlockRes;
+	private GameObject spawnBlockRes;
+	private GameObject matchRes;
 	private PreviewBlock previewBlockL;
 	private PreviewBlock previewBlockR;
 	private PreviewBlock nextBlock;
+	private SpawnBlock spawnBlock;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -41,6 +44,8 @@ public class GameManager : MonoBehaviour
 	void Start ()
 	{
 		previewBlockRes = Resources.Load<GameObject> ("Prefabs/PreviewBlock");
+		spawnBlockRes = Resources.Load<GameObject> ("Prefabs/SpawnBlock");
+		matchRes = Resources.Load<GameObject> ("Prefabs/Match");
 
 		CreateBG ();
 		if (boardSize == 7) {
@@ -62,14 +67,14 @@ public class GameManager : MonoBehaviour
 		CreateNextBlock ();
 	}
 
-	//TODO delete this in final game
-	private bool initMatch = false;
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!initMatch) {
-			CheckForMatches ();
-			initMatch = true;
+		// If block is moved over spawning block, move spawn block to different area
+		if (spawnBlock != null) {
+			if (GetBlockInPosition (spawnBlock.mRow, spawnBlock.mCol)) {
+				RetrySpawn ();
+			}
 		}
 
 		if (lastSpawnTime + spawnSpeed < Time.time) {
@@ -77,13 +82,7 @@ public class GameManager : MonoBehaviour
 			lastSpawnTime = Time.time;
 		}
 
-		if (Input.GetKeyDown (KeyCode.E)) {
-			SpawnBlock ();
-		}
 
-		if (numBlocks < 0) {
-			Application.LoadLevel (3);
-		}
 	}
 
 	private void CreateBG ()
@@ -274,6 +273,7 @@ public class GameManager : MonoBehaviour
 				Block block = board [i, j].block;
 				if (block != null) {
 					if (block.toDelete) {
+						Instantiate (matchRes, block.transform.position, Quaternion.identity);
 						GameObject.Destroy (block.gameObject);
 						numBlocks = numBlocks - 1; 
 						//Debug.Log (numBlocks);
@@ -373,30 +373,60 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void SpawnBlock ()
+	public void SpawnBlock ()
 	{
 		while (numBlocks < maxBlocks) {
-			int row = Random.Range (1, boardSize);
-			int col = Random.Range (1, boardSize);
 
-			if (board [row, col].block == null) {
+			if (board [spawnBlock.mRow, spawnBlock.mCol].block == null) {
 				GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
 				Block block = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
 				block.transform.parent = boardParent.transform;
-				block.SetBoardPosition (row, col);
-				block.SetBlockProperties (nextBlock.color, nextBlock.shape);
-				PlaceBlock (block, row, col);
+				block.SetBoardPosition (spawnBlock.mRow, spawnBlock.mCol);
+				block.SetBlockProperties (spawnBlock.color, spawnBlock.shape);
+				PlaceBlock (block, spawnBlock.mRow, spawnBlock.mCol);
 				numBlocks++;
+				CheckForMatches ();
+				Destroy (spawnBlock.gameObject);
+				CreateNextBlock ();
 				break;
 			}
 		}
 		if (numBlocks >= maxBlocks) {
-			//TODO
+			Application.LoadLevel (3);
+		}
+	}
+
+	private void SpawnSpawner ()
+	{
+		while (numBlocks < maxBlocks) {
+			int row = Random.Range (1, boardSize+1);
+			int col = Random.Range (1, boardSize+1);
+
+			if (board [row, col].block == null) {
+				spawnBlock = ((GameObject)Instantiate (spawnBlockRes, Vector2.zero, Quaternion.identity)).GetComponent<SpawnBlock> ();
+				spawnBlock.SetBlockProperties (nextBlock.color, nextBlock.shape);
+				spawnBlock.SetBoardPosition (row, col);
+				break;
+			}
+		}
+	}
+
+	private void RetrySpawn ()
+	{
+		while (numBlocks < maxBlocks) {
+			int row = Random.Range (1, boardSize+1);
+			int col = Random.Range (1, boardSize+1);
+
+			if (board [row, col].block == null) {
+				spawnBlock.SetBoardPosition (row, col);
+				spawnBlock.Retry ();
+				break;
+			}
 		}
 	}
 
 	private Vector2 previewPosBlock5L = new Vector2 (-6.655f, -0.35f);
-	private Vector2 previewPosBlock5R = new Vector2 (6.655f, -0.35f);
+	private Vector2 previewPosBlock5R = new Vector2 (6.645f, -0.35f);
 	private Vector2 previewPosBlock7L = new Vector2 (-8.165f, -0.35f);
 	private Vector2 previewPosBlock7R = new Vector2 (8.145f, -0.35f);
 	private Vector2 previewPosBlock9L = new Vector2 (-9.65f, -0.35f);
@@ -421,58 +451,15 @@ public class GameManager : MonoBehaviour
 		previewBlockR.SetBlockProperties (newColor, newShape);
 
 		nextBlock = previewBlockL;
-		nextBlock.SetExpire (2);
+		nextBlock.SetExpire (0);
 	}
 
 	public void ExpirePreview ()
 	{
-		SpawnBlock ();
+		SpawnSpawner ();
 		Destroy (previewBlockL.gameObject);
 		Destroy (previewBlockR.gameObject);
 	}
-
-	/*
-	private void PlacePreviewBlocksOnBoard ()
-	{
-		int row; 
-		int col; 
-
-		while (numBlocks < maxBlocks - 5) {
-
-			if ((previewBlock1 == null) && (previewBlock2 == null)) {
-				return; 
-			}
-
-			if (previewBlock1) {
-				
-				row = Random.Range (1, boardSize);
-				col = Random.Range (1, boardSize);
-
-				if (board [row, col].block == null) {
-					previewBlock1.transform.parent = boardParent.transform;
-					previewBlock1.SetBoardPosition (row, col);
-					PlaceBlock (previewBlock1, row, col);
-					previewBlock1 = null; 
-					numBlocks++; 
-				}
-			}
-
-			if (previewBlock2) {
-				row = Random.Range (1, boardSize);
-				col = Random.Range (1, boardSize);
-
-				if (board [row, col].block == null) {
-					previewBlock2.transform.parent = boardParent.transform;
-					previewBlock2.SetBoardPosition (row, col);
-					PlaceBlock (previewBlock2, row, col);
-					previewBlock2 = null; 
-					numBlocks++;
-				}
-			}
-		}
-		Application.LoadLevel (3); //game over
-	}
-*/
 
 	private void SpawnBotPlayer (int numPlayer)
 	{
