@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 	private PreviewBlock previewBlockR;
 	private PreviewBlock nextBlock;
 	private SpawnBlock spawnBlock;
+	private Text stageText;
+	private Text scoreText;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -47,6 +50,9 @@ public class GameManager : MonoBehaviour
 		spawnBlockRes = Resources.Load<GameObject> ("Prefabs/SpawnBlock");
 		matchRes = Resources.Load<GameObject> ("Prefabs/Match");
 
+		stageText = GameObject.Find ("StageText").GetComponent<Text>();
+		scoreText = GameObject.Find ("ScoreText").GetComponent<Text>();
+
 		CreateBG ();
 		if (boardSize == 7) {
 			GameObject.Find ("Main Camera").GetComponent<Camera> ().orthographicSize = 6.75f;
@@ -55,11 +61,7 @@ public class GameManager : MonoBehaviour
 		}
 		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
-		//TODO delete
-		/*	for (int i = 0; i < boardSize * 2; i++) {
-			SpawnBlock ();
-		}*/
-		//CheckForMatches ();
+
 		for (int i = 0; i < 3; i++) {
 			//SpawnBotPlayer (i+1);
 		}
@@ -81,8 +83,6 @@ public class GameManager : MonoBehaviour
 			//	SpawnBlock ();
 			lastSpawnTime = Time.time;
 		}
-
-
 	}
 
 	private void CreateBG ()
@@ -325,6 +325,7 @@ public class GameManager : MonoBehaviour
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row, col + i].block;
 				newBlock.toDelete = true;
+				newBlock.hMatched = true;
 			}
 		}
 	}
@@ -451,7 +452,7 @@ public class GameManager : MonoBehaviour
 		previewBlockR.SetBlockProperties (newColor, newShape);
 
 		nextBlock = previewBlockL;
-		nextBlock.SetExpire (0);
+		nextBlock.SetExpire (2);
 	}
 
 	public void ExpirePreview ()

@@ -7,7 +7,8 @@ public class Block : BoardObject
 	public int color;
 	public int shape;
 	public bool toDelete;
-
+	public bool hMatched;
+	public bool vMatched;
 
 	// Use this for initialization
 	void Start ()
