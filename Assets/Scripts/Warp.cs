@@ -9,10 +9,11 @@ public class Warp : MonoBehaviour
 
 	private float currTime;
 	private SpriteRenderer sprite;
-
+	private GameManager mgr;
 	// Use this for initialization
 	void Start ()
 	{
+		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 		sprite = GetComponent<SpriteRenderer> ();
 	}
 	
@@ -27,7 +28,8 @@ public class Warp : MonoBehaviour
 		}
 		if (currTime > phase2Duration) {
 			GetComponentInParent<Block> ().finishedSpawning = true;
-			GameObject.Find ("GameManager").GetComponent<GameManager> ().CheckForMatches ();
+			mgr.CheckForMatches ();
+			mgr.CreateNextBlock ();
 			GameObject.Destroy (gameObject);
 		}
 	}

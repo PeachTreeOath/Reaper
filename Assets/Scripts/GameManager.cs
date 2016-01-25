@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviour
 	private BoardSquare[,] spawningBoard;
 	private float lastSpawnTime;
 	private GameObject boardParent;
-	private Block previewBlock1;
-	private Block previewBlock2;
+	private GameObject previewBlockRes;
+	private PreviewBlock previewBlockL;
+	private PreviewBlock previewBlockR;
+	private PreviewBlock nextBlock;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -38,20 +40,26 @@ public class GameManager : MonoBehaviour
 
 	void Start ()
 	{
+		previewBlockRes = Resources.Load<GameObject> ("Prefabs/PreviewBlock");
+
 		CreateBG ();
-		if (boardSize > 5) {
-			GameObject.Find ("Main Camera").GetComponent<Camera> ().orthographicSize += boardSize - 5;
+		if (boardSize == 7) {
+			GameObject.Find ("Main Camera").GetComponent<Camera> ().orthographicSize = 6.75f;
+		} else if (boardSize == 9) {
+			GameObject.Find ("Main Camera").GetComponent<Camera> ().orthographicSize = 8.25f;
 		}
 		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
 		//TODO delete
-	/*	for (int i = 0; i < boardSize * 2; i++) {
+		/*	for (int i = 0; i < boardSize * 2; i++) {
 			SpawnBlock ();
 		}*/
 		//CheckForMatches ();
 		for (int i = 0; i < 3; i++) {
 			//SpawnBotPlayer (i+1);
 		}
+
+		CreateNextBlock ();
 	}
 
 	//TODO delete this in final game
@@ -69,19 +77,13 @@ public class GameManager : MonoBehaviour
 			lastSpawnTime = Time.time;
 		}
 
-		//CreatePreviewBlocks ();
+		if (Input.GetKeyDown (KeyCode.E)) {
+			SpawnBlock ();
+		}
 
-		if(Input.GetKeyDown(KeyCode.E))
-			{
-				SpawnBlock();
-			}
-//		Debug.Log (numBlocks);
 		if (numBlocks < 0) {
 			Application.LoadLevel (3);
 		}
-		//else if (numBlocks < 10) {
-		//	PlacePreviewBlocksOnBoard ();
-		//}
 	}
 
 	private void CreateBG ()
@@ -94,19 +96,19 @@ public class GameManager : MonoBehaviour
 		GameObject parent = GameObject.Find ("Background");
 
 		if (boardSize == 5) {
-			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-8,0), Quaternion.identity));
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2 (-7.25f, 0), Quaternion.identity));
 			panelLObj.transform.parent = parent.transform;
-			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(8,0), Quaternion.identity));
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2 (7.25f, 0), Quaternion.identity));
 			panelRObj.transform.parent = parent.transform;
 		} else if (boardSize == 7) {
-			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-9.5f,0), Quaternion.identity));
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2 (-8.75f, 0), Quaternion.identity));
 			panelLObj.transform.parent = parent.transform;
-			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(9.5f,0), Quaternion.identity));
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2 (8.75f, 0), Quaternion.identity));
 			panelRObj.transform.parent = parent.transform;
 		} else if (boardSize == 9) {
-			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2(-11,0), Quaternion.identity));
+			GameObject panelLObj = ((GameObject)Instantiate (sidePanelL, new Vector2 (-10.25f, 0), Quaternion.identity));
 			panelLObj.transform.parent = parent.transform;
-			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2(11,0), Quaternion.identity));
+			GameObject panelRObj = ((GameObject)Instantiate (sidePanelR, new Vector2 (10.25f, 0), Quaternion.identity));
 			panelRObj.transform.parent = parent.transform;
 		}
 
@@ -137,6 +139,7 @@ public class GameManager : MonoBehaviour
 			currX += 1.5f;
 		}
 
+		/*
 		//create preview block squares
 		GameObject pb1 = ((GameObject)Instantiate (bgPrefab, Vector2.zero, Quaternion.identity)); 
 		pb1.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquare");
@@ -147,6 +150,7 @@ public class GameManager : MonoBehaviour
 		pb2.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquare");
 		pb2.transform.position = new Vector2 (currX + 1.5F, -1F * origCurrX);
 		pb2.transform.parent = parent.transform;
+		*/
 	}
 
 	public bool CheckForBlock (int row, int col) //TODO is this necessary?
@@ -273,7 +277,7 @@ public class GameManager : MonoBehaviour
 						GameObject.Destroy (block.gameObject);
 						numBlocks = numBlocks - 1; 
 						//Debug.Log (numBlocks);
-						board[i,j].block = null; 
+						board [i, j].block = null; 
 					}
 				}
 			}
@@ -371,7 +375,7 @@ public class GameManager : MonoBehaviour
 
 	private void SpawnBlock ()
 	{
-		while (true) { //TODO better exit stmt
+		while (numBlocks < maxBlocks) {
 			int row = Random.Range (1, boardSize);
 			int col = Random.Range (1, boardSize);
 
@@ -380,33 +384,60 @@ public class GameManager : MonoBehaviour
 				Block block = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
 				block.transform.parent = boardParent.transform;
 				block.SetBoardPosition (row, col);
+				block.SetBlockProperties (nextBlock.color, nextBlock.shape);
 				PlaceBlock (block, row, col);
 				numBlocks++;
 				break;
 			}
 		}
+		if (numBlocks >= maxBlocks) {
+			//TODO
+		}
 	}
 
-	private void CreatePreviewBlocks ()
+	private Vector2 previewPosBlock5L = new Vector2 (-6.655f, -0.35f);
+	private Vector2 previewPosBlock5R = new Vector2 (6.655f, -0.35f);
+	private Vector2 previewPosBlock7L = new Vector2 (-8.165f, -0.35f);
+	private Vector2 previewPosBlock7R = new Vector2 (8.145f, -0.35f);
+	private Vector2 previewPosBlock9L = new Vector2 (-9.65f, -0.35f);
+	private Vector2 previewPosBlock9R = new Vector2 (9.65f, -0.35f);
+
+	public void CreateNextBlock ()
 	{
-		GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
-		if (previewBlock1 == null) {
-			previewBlock1 = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
-			previewBlock1.SetBoardPosition (0, -2);
+		if (boardSize == 5) {
+			previewBlockL = ((GameObject)Instantiate (previewBlockRes, previewPosBlock5L, Quaternion.identity)).GetComponent<PreviewBlock> ();
+			previewBlockR = ((GameObject)Instantiate (previewBlockRes, previewPosBlock5R, Quaternion.identity)).GetComponent<PreviewBlock> ();
+		} else if (boardSize == 7) {
+			previewBlockL = ((GameObject)Instantiate (previewBlockRes, previewPosBlock7L, Quaternion.identity)).GetComponent<PreviewBlock> ();
+			previewBlockR = ((GameObject)Instantiate (previewBlockRes, previewPosBlock7R, Quaternion.identity)).GetComponent<PreviewBlock> ();
+		} else if (boardSize == 9) {
+			previewBlockL = ((GameObject)Instantiate (previewBlockRes, previewPosBlock9L, Quaternion.identity)).GetComponent<PreviewBlock> ();
+			previewBlockR = ((GameObject)Instantiate (previewBlockRes, previewPosBlock9R, Quaternion.identity)).GetComponent<PreviewBlock> ();
+		}
 
-		}
-		if (previewBlock2 == null) {
-			previewBlock2 = ((GameObject)Instantiate (blockObj, Vector2.zero, Quaternion.identity)).GetComponent<Block> ();
-			previewBlock2.SetBoardPosition (0, boardSize + 3);
-		}
+		int newColor = Random.Range (1, 7);
+		int newShape = Random.Range (1, 6); 
+		previewBlockL.SetBlockProperties (newColor, newShape);
+		previewBlockR.SetBlockProperties (newColor, newShape);
+
+		nextBlock = previewBlockL;
+		nextBlock.SetExpire (2);
 	}
 
+	public void ExpirePreview ()
+	{
+		SpawnBlock ();
+		Destroy (previewBlockL.gameObject);
+		Destroy (previewBlockR.gameObject);
+	}
+
+	/*
 	private void PlacePreviewBlocksOnBoard ()
 	{
 		int row; 
 		int col; 
 
-		while (numBlocks < maxBlocks-5){
+		while (numBlocks < maxBlocks - 5) {
 
 			if ((previewBlock1 == null) && (previewBlock2 == null)) {
 				return; 
@@ -441,6 +472,7 @@ public class GameManager : MonoBehaviour
 		}
 		Application.LoadLevel (3); //game over
 	}
+*/
 
 	private void SpawnBotPlayer (int numPlayer)
 	{

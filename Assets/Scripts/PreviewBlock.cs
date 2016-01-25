@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Block : BoardObject
+public class PreviewBlock : MonoBehaviour
 {
 
 	public int color;
 	public int shape;
-	public bool toDelete;
 
-	private Warp warp;
+	private float expireTime;
+	private float currTime;
+	private GameManager mgr;
+	private bool checkExpire;
 
 	// Use this for initialization
 	void Start ()
 	{
-		boardType = BoardType.BLOCK;
-		//SetBlockProperties (0,0);
-
-		GameObject warpObj = Resources.Load<GameObject> ("Prefabs/Warp");
-		warp = ((GameObject)Instantiate (warpObj, transform.position, Quaternion.identity)).GetComponent<Warp> ();
-		warp.transform.parent = transform;
+		mgr = GameObject.Find ("GameManager").GetComponent<GameManager> ();
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!finishedSpawning) {
-			return;
+		currTime += Time.deltaTime;
+
+		if (checkExpire && currTime > expireTime) {
+			mgr.ExpirePreview ();
 		}
-		base.Update ();
 	}
 
+	public void SetExpire(float time)
+	{
+		checkExpire = true;
+		expireTime = time;
+	}
+
+	// Keep in sync with Block.cs
 	public void SetBlockProperties (int inColor, int inShape)
 	{
 		SpriteRenderer blockSprite = GetComponent<SpriteRenderer> ();
@@ -111,12 +116,5 @@ public class Block : BoardObject
 			fruitSprite.sprite = Resources.Load<Sprite> ("Images/fruitStrawberry");
 			break;
 		}
-
-	}
-
-	protected override void SetDestToPos ()
-	{
-		base.SetDestToPos ();
-		mgr.CheckForMatches ();
 	}
 }
