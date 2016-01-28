@@ -33,6 +33,7 @@ public class Player : BoardObject
 	public int jumpDirection = 3;
 	public int pullDirection = 3;
 	public int numPlayer;
+	public string playerJoyName;
 	private bool jumpAgainstWall = false;
 	private Vector2 jumpStartPosition;
 	private Dictionary<int,int> pullMap;
@@ -148,29 +149,30 @@ public class Player : BoardObject
 			int pullSrcC = col;
 
 			if (!isBot) {
-				if (Input.GetKeyDown (KeyCode.Space) && !isBot && !isJumping) {
+				if (Input.GetButtonDown ("Jump" + playerJoyName) && !isBot && !isJumping )
+				{
 					Jump ();
 					return;
 				}
 				animator.SetBool ("Pushing", false);
 				animator.SetBool ("Pulling", false);
 
-				if (Input.GetAxis ("Horizontal") < 0) {
+				if (Input.GetAxis ("Horizontal" + playerJoyName) < 0) {
 					destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					pullSrcC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					direction = 1;
 					SetPrevDirectionVars (direction);
-				} else if (Input.GetAxis ("Horizontal") > 0) {
+				} else if (Input.GetAxis ("Horizontal" + playerJoyName) > 0) {
 					destC = Mathf.Clamp (col + 1, 0, mgr.boardSize + 1);
 					pullSrcC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 					direction = 2;
 					SetPrevDirectionVars (direction);
-				} else if (Input.GetAxis ("Vertical") < 0) {
+				} else if (Input.GetAxis ("Vertical" + playerJoyName) < 0) {
 					destR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					pullSrcR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					direction = 3;
 					SetPrevDirectionVars (direction);
-				} else if (Input.GetAxis ("Vertical") > 0) {
+				} else if (Input.GetAxis ("Vertical" + playerJoyName) > 0) {
 					destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 					pullSrcR = Mathf.Clamp (row + 1, 0, mgr.boardSize + 1);
 					direction = 4;
@@ -180,7 +182,7 @@ public class Player : BoardObject
 				}
 
 				animator.SetInteger ("Direction", direction);
-				if (Input.GetKey (KeyCode.Tab) || Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift)) {
+				if (Input.GetButton ("Pull" + playerJoyName)) {
 					animator.SetInteger ("Prevdirection", pullDirection);
 					jumpDirection = pullDirection;
 					if (!isPulling) {
@@ -189,7 +191,7 @@ public class Player : BoardObject
 						animator.SetBool ("TryPulling", true);
 
 					} 
-				} else if (!Input.GetKey (KeyCode.Tab)) {
+				} else if (!Input.GetButton ("Pull" + playerJoyName)) {
 					pullDirection = 0;
 					isPulling = false;
 					animator.SetBool ("TryPulling", false);
@@ -245,7 +247,8 @@ public class Player : BoardObject
 				} 
 
 				// Jump off block if on edge block
-				if (!mgr.CheckForBlock (destR, destC) && mgr.GetBlockInPosition (row, col) != null) {
+				if (!mgr.CheckForBlock (destR, destC) && mgr.GetBlockInPosition (row, col) != null &&
+					mgr.GetPlayerInPosition (destR, destC) == null) {
 					Jump ();
 					return;
 				}
@@ -272,12 +275,9 @@ public class Player : BoardObject
 
 	private void Jump ()
 	{
-		jumpTime = 0;
-		isJumping = true;	
-
-		//pure movement 
 		int destR = row;
 		int destC = col;
+
 		if (jumpDirection == 1) {
 			destC = Mathf.Clamp (col - 1, 0, mgr.boardSize + 1);
 		} else if (jumpDirection == 2) {
@@ -287,13 +287,20 @@ public class Player : BoardObject
 		} else if (jumpDirection == 4) {
 			destR = Mathf.Clamp (row - 1, 0, mgr.boardSize + 1);
 		}
-		if (destR == row && destC == col) {
+
+		jumpTime = 0;
+		isJumping = true;	
+
+		//pure movement 
+		if (destR == row && destC == col || mgr.GetPlayerInPosition (destR, destC) != null) {
 			jumpAgainstWall = true;
 			jumpStartPosition = GetBoardPosition (row, col);
+		} else {
+			Move (destR, destC);
+			mgr.SetPlayerPosition (destR, destC, this); 
+			mgr.VacatePlayerPosition (row, col);
 		}
-		Move (destR, destC);
-		mgr.SetPlayerPosition (destR, destC, this); 
-		mgr.VacatePlayerPosition (row, col);
+
 	}
 
 	private float GetJumpHeight (float time)
