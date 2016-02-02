@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	private GameObject previewBlockRes;
 	private GameObject spawnBlockRes;
 	private GameObject matchRes;
+	private GameObject playerRes;
 	private PreviewBlock previewBlockL;
 	private PreviewBlock previewBlockR;
 	private PreviewBlock nextBlock;
@@ -24,7 +25,9 @@ public class GameManager : MonoBehaviour
 	private int stage;
 	private int score;
 	public int difficulty;
+	private float defaultSpawnSpeed = 2f;
 	private float spawnSpeed;
+	private GlobalObject globalObj;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -32,9 +35,12 @@ public class GameManager : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
-		GameObject globalObj = GameObject.Find ("GlobalObject"); 
+		GameObject global = GameObject.Find ("GlobalObject"); 
+		if (global != null) {
+			globalObj = global.GetComponent<GlobalObject> ();
+		}
 		if (globalObj != null) {
-			boardSize = globalObj.GetComponent<GlobalObject> ().boardSize; 
+			boardSize = globalObj.boardSize; 
 		}
 
 		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
@@ -49,6 +55,7 @@ public class GameManager : MonoBehaviour
 
 	void Start ()
 	{
+		playerRes = Resources.Load<GameObject> ("Prefabs/Player");
 		previewBlockRes = Resources.Load<GameObject> ("Prefabs/PreviewBlock");
 		spawnBlockRes = Resources.Load<GameObject> ("Prefabs/SpawnBlock");
 		matchRes = Resources.Load<GameObject> ("Prefabs/Match");
@@ -65,11 +72,55 @@ public class GameManager : MonoBehaviour
 		boardParent = GameObject.Find ("BoardObjects");
 		lastSpawnTime = Time.time;
 
-		for (int i = 0; i < 3; i++) {
+		//for (int i = 0; i < 3; i++) {
 			//SpawnBotPlayer (i+1);
-		}
+		//}
 
-		NewStage ();
+		if (globalObj != null) {
+			//Set players
+			if (globalObj.numPlayers > 0) {
+				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				player.numPlayer = 0;
+				player.playerJoyName = globalObj.p1JoyMap;
+				player.destRow = 0;
+				player.destCol = 0;
+			}
+			if (globalObj.numPlayers > 1) {
+				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				player.numPlayer = 1;
+				player.playerJoyName = globalObj.p2JoyMap;
+				player.destRow = 0;
+				player.destCol = boardSize+1;
+			}
+			if (globalObj.numPlayers > 3) {
+				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				player.numPlayer = 2;
+				player.playerJoyName = globalObj.p3JoyMap;
+				player.destRow = boardSize+1;
+				player.destCol = 0;
+			}
+			if (globalObj.numPlayers > 4) {
+				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				player.numPlayer = 3;
+				player.playerJoyName = globalObj.p4JoyMap;
+				player.destRow = boardSize+1;
+				player.destCol = boardSize+1;
+			}
+
+			//Set difficulty
+			if (globalObj.difficulty == 1) {
+				defaultSpawnSpeed = 1.5f;
+			} else if (globalObj.difficulty == 2) {
+				defaultSpawnSpeed = 1f;
+			}
+		} else {
+			Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+			player.numPlayer = 0;
+			player.playerJoyName = "_p1";
+			player.destRow = 0;
+			player.destCol = 0;
+			NewStage ();
+		}
 		CreateNextBlock ();
 	}
 
@@ -441,7 +492,7 @@ public class GameManager : MonoBehaviour
 	private void NewStage ()
 	{
 		int speedDifficulty = stage / 10;
-		spawnSpeed = 2 - ((stage % 10) * 0.1f);
+		spawnSpeed = defaultSpawnSpeed - ((stage % 10) * 0.1f);
 		spawnSpeed -= speedDifficulty * 0.2f;
 		if (speedDifficulty > 2) {
 			speedDifficulty = 2;

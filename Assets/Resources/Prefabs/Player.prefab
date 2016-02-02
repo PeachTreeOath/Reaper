@@ -59,18 +59,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boardType: 0
-  speed: 0
+  speed: 3
   row: 0
   col: 0
   destRow: 0
   destCol: 0
+  finishedSpawning: 0
+  moving: 0
   isBot: 0
   pushPullDelay: 0.2
-  landDelay: 0.2
+  landDelay: 0.075
   prevDirection: 3
   jumpDirection: 3
   pullDirection: 3
   numPlayer: 0
+  playerJoyName: 
 --- !u!212 &21272256
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -124,6 +127,14 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: dc746ddd19efe462eaafa8f73b36570e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: landDelay
+      value: 0.075
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168660}
