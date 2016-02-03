@@ -6,14 +6,14 @@ public class DifficultyMenuScript : MonoBehaviour
 
 	enum arrow
 	{
-size,
+		size,
 		difficulty}
 
 	;
 
 	enum size
 	{
-five,
+		five,
 		seven,
 		nine}
 
@@ -21,7 +21,7 @@ five,
 
 	enum difficulty
 	{
-easy,
+		easy,
 		medium,
 		hard}
 
@@ -31,11 +31,12 @@ easy,
 	int difficultyAt = 1;
 	int sizeAt = 1;
 	GlobalObject globalObj;
+	private bool axisPressed;
 
 	// Use this for initialization
 	void Start ()
 	{
-		globalObj = GameObject.Find ("GlobalObject").GetComponent<GlobalObject>();
+		globalObj = GameObject.Find ("GlobalObject").GetComponent<GlobalObject> ();
 
 		GameObject.Find ("SizeText").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Size"); 
 		GameObject.Find ("DifficultyText").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Difficulty");
@@ -51,19 +52,18 @@ easy,
 	// Update is called once per frame
 	void Update ()
 	{
-
-		if (Input.GetKeyDown (KeyCode.DownArrow) && (arrowAt == (int)arrow.size)) {
+		if (!axisPressed && Input.GetAxis ("Vertical_p1") < 0 && (arrowAt == (int)arrow.size)) {
 			arrowAt = (int)arrow.difficulty; 
 			GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
 			GameObject.Find ("DifficultyArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
-		
-		} else if (Input.GetKeyDown (KeyCode.UpArrow) && (arrowAt == (int)arrow.difficulty)) {
+			axisPressed = true;
+		} else if (!axisPressed && Input.GetAxis ("Vertical_p1") > 0 && (arrowAt == (int)arrow.difficulty)) {
 			arrowAt = (int)arrow.size;
 			GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
 			GameObject.Find ("DifficultyArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
-		
-		} else if (Input.GetKeyDown (KeyCode.LeftArrow)) { // decrease settings
-
+			axisPressed = true;
+		} else if (!axisPressed && Input.GetAxis ("Horizontal_p1") < 0) { // decrease settings
+			axisPressed = true;
 			if (arrowAt == (int)arrow.size) {
 				sizeAt = (int)Mathf.Clamp (sizeAt - 1, 0, (float)size.nine);
 				globalObj.boardSize = sizeAt;
@@ -96,8 +96,8 @@ easy,
 				}
 			}
 
-		} else if (Input.GetKeyDown (KeyCode.RightArrow)) { // increase settings
-
+		} else if (!axisPressed && Input.GetAxis ("Horizontal_p1") > 0) { // increase settings
+			axisPressed = true;
 			if (arrowAt == (int)arrow.size) {
 				sizeAt = (int)Mathf.Clamp (sizeAt + 1, 0, (float)size.nine);
 				globalObj.boardSize = sizeAt;
@@ -130,6 +130,9 @@ easy,
 				}
 			}
 
+		}
+		if (Input.GetAxis ("Horizontal_p1") == 0 && Input.GetAxis ("Vertical_p1") == 0) {
+			axisPressed = false;
 		}
 		if (Input.GetButtonDown ("Submit")) {
 			globalObj.PlayMusic (1);
