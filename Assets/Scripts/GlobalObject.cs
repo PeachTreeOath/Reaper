@@ -13,6 +13,7 @@ public class GlobalObject : MonoBehaviour
 	public string p2JoyMap;
 	public string p3JoyMap;
 	public string p4JoyMap;
+	public int highestStage;
 
 	private AudioClip titleTheme;
 	private AudioClip gameTheme;

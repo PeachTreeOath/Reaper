@@ -8,11 +8,13 @@ public class StartMenuScript : MonoBehaviour
 	GameObject q1, q2, q3, q4, startButton;
 	GlobalObject globalObj;
 	private bool[] playerArr;
+	private GameObject playerRes;
 
 	void Start ()
 	{
 		playerArr = new bool[4];
 
+		playerRes = Resources.Load<GameObject> ("Prefabs/SelectPlayer");
 		q1 = GameObject.Find ("Q1");
 		q2 = GameObject.Find ("Q2");
 		q3 = GameObject.Find ("Q3");
@@ -86,19 +88,31 @@ public class StartMenuScript : MonoBehaviour
 		switch (numPlayers) {
 		case 1:
 			q1.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
-			q1.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
+			SelectPlayer playerObj1 = ((GameObject)Instantiate (playerRes, q1.transform.position, Quaternion.identity)).GetComponent<SelectPlayer> ();
+			playerObj1.numPlayer = numPlayers - 1;
+			playerObj1.transform.localScale = new Vector2 (2, 2);
+			//q1.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
 			break;
 		case 2:
 			q2.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
-			q2.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
+			SelectPlayer playerObj2 = ((GameObject)Instantiate (playerRes, q2.transform.position, Quaternion.identity)).GetComponent<SelectPlayer> ();
+			playerObj2.numPlayer = numPlayers - 1;
+			playerObj2.transform.localScale = new Vector2 (2, 2);
+			//q2.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
 			break;
 		case 3:
 			q3.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
-			q3.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
+			SelectPlayer playerObj3 = ((GameObject)Instantiate (playerRes, q3.transform.position, Quaternion.identity)).GetComponent<SelectPlayer> ();
+			playerObj3.numPlayer = numPlayers - 1;
+			playerObj3.transform.localScale = new Vector2 (2, 2);
+			//q3.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
 			break;
 		case 4:
 			q4.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
-			q4.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
+			SelectPlayer playerObj4 = ((GameObject)Instantiate (playerRes, q4.transform.position, Quaternion.identity)).GetComponent<SelectPlayer> ();
+			playerObj4.numPlayer = numPlayers - 1;
+			playerObj4.transform.localScale = new Vector2 (2, 2);
+			//q4.GetComponent<Animator> ().runtimeAnimatorController = Resources.Load <RuntimeAnimatorController> ("Images/Kiwi/KiwiDanceController");
 			break;
 		}
 	}

@@ -84,38 +84,49 @@ public class GameManager : MonoBehaviour
 		lastSpawnTime = Time.time;
 
 		//for (int i = 0; i < 3; i++) {
-			//SpawnBotPlayer (i+1);
+		//SpawnBotPlayer (i+1);
 		//}
 
 		if (globalObj != null) {
 			//Set players
 			if (globalObj.numPlayers > 0) {
-				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 0;
 				player.playerJoyName = globalObj.p1JoyMap;
+				player.row = 0;
+				player.col = 0;
 				player.destRow = 0;
 				player.destCol = 0;
 			}
 			if (globalObj.numPlayers > 1) {
-				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 1;
 				player.playerJoyName = globalObj.p2JoyMap;
+				player.row = 0;
+				player.col = boardSize + 1;
 				player.destRow = 0;
-				player.destCol = boardSize+1;
+				player.destCol = boardSize + 1;
+				player.transform.position = player.GetBoardPosition (player.row, player.col);
 			}
 			if (globalObj.numPlayers > 3) {
-				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 2;
 				player.playerJoyName = globalObj.p3JoyMap;
-				player.destRow = boardSize+1;
+				player.row = boardSize + 1;
+				player.col = 0;
+				player.destRow = boardSize + 1;
 				player.destCol = 0;
+				player.transform.position = player.GetBoardPosition (player.row, player.col);
 			}
 			if (globalObj.numPlayers > 4) {
-				Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 3;
 				player.playerJoyName = globalObj.p4JoyMap;
-				player.destRow = boardSize+1;
-				player.destCol = boardSize+1;
+				player.row = boardSize + 1;
+				player.col = boardSize + 1;
+				player.destRow = boardSize + 1;
+				player.destCol = boardSize + 1;
+				player.transform.position = player.GetBoardPosition (player.row, player.col);
 			}
 
 			//Set difficulty
@@ -124,8 +135,10 @@ public class GameManager : MonoBehaviour
 			} else if (globalObj.difficulty == 2) {
 				defaultSpawnSpeed = 1f;
 			}
+
+			globalObj.highestStage = 1;
 		} else {
-			Player player = ((GameObject)Instantiate(playerRes,Vector2.zero,Quaternion.identity)).GetComponent<Player>();
+			Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 			player.numPlayer = 0;
 			player.playerJoyName = "_p1";
 			player.destRow = 0;
@@ -536,6 +549,7 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		if (numBlocks >= maxBlocks) {
+			globalObj.highestStage = stage;
 			globalObj.PlayMusic (2);
 			Application.LoadLevel (4);
 		}
