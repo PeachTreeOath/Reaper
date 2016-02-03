@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 	private float defaultSpawnSpeed = 2f;
 	private float spawnSpeed;
 	private GlobalObject globalObj;
+	private AudioSource matchAudio;
 
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
 		previewBlockRes = Resources.Load<GameObject> ("Prefabs/PreviewBlock");
 		spawnBlockRes = Resources.Load<GameObject> ("Prefabs/SpawnBlock");
 		matchRes = Resources.Load<GameObject> ("Prefabs/Match");
-
+		matchAudio = GetComponent<AudioSource> ();
 		stageText = GameObject.Find ("StageText").GetComponent<Text> ();
 		scoreText = GameObject.Find ("ScoreText").GetComponent<Text> ();
 
@@ -328,6 +329,7 @@ public class GameManager : MonoBehaviour
 
 	private void DeleteMatches ()
 	{
+		bool playSound = false;
 		for (int i = 1; i < boardSize + 1; i++) {
 			for (int j = 1; j < boardSize + 1; j++) {	
 				Block block = board [i, j].block;
@@ -337,9 +339,13 @@ public class GameManager : MonoBehaviour
 						GameObject.Destroy (block.gameObject);
 						numBlocks = numBlocks - 1;
 						board [i, j].block = null; 
+						playSound = true;
 					}
 				}
 			}
+		}
+		if (playSound) {
+			matchAudio.Play ();
 		}
 	}
 
@@ -530,7 +536,8 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		if (numBlocks >= maxBlocks) {
-			Application.LoadLevel (3);
+			globalObj.PlayMusic (2);
+			Application.LoadLevel (4);
 		}
 	}
 

@@ -3,7 +3,6 @@ using System.Collections;
 
 public class SpawnBlock : MonoBehaviour
 {
-
 	public int color;
 	public int shape;
 	public int mRow;

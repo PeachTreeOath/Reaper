@@ -132,7 +132,8 @@ easy,
 
 		}
 		if (Input.GetButtonDown ("Submit")) {
-			Application.LoadLevel (2);
+			globalObj.PlayMusic (1);
+			Application.LoadLevel (3);
 		}
 	}
 

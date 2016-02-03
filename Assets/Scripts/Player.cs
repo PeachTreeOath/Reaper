@@ -37,6 +37,7 @@ public class Player : BoardObject
 	private bool jumpAgainstWall = false;
 	private Vector2 jumpStartPosition;
 	private Dictionary<int,int> pullMap;
+	private AudioSource jumpSound;
 
 	// Defines what directions you can pull in
 
@@ -98,6 +99,7 @@ public class Player : BoardObject
 		InitColorSwapTex ();
 		ChangeColor (numPlayer);
 
+		jumpSound = GetComponent<AudioSource> ();
 		pullMap = new Dictionary<int,int> ();
 		pullMap.Add (1, 2);
 		pullMap.Add (2, 1);
@@ -301,6 +303,7 @@ public class Player : BoardObject
 			mgr.VacatePlayerPosition (row, col);
 		}
 
+		jumpSound.Play ();
 	}
 
 	private float GetJumpHeight (float time)

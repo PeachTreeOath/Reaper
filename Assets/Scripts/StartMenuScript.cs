@@ -24,7 +24,7 @@ public class StartMenuScript : MonoBehaviour
 		q3.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressA");
 		q4.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressA");
 
-		startButton.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressStart");
+
 		globalObj = GameObject.Find ("GlobalObject").GetComponent<GlobalObject> ();
 	}
 	
@@ -32,25 +32,39 @@ public class StartMenuScript : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetButtonDown ("Jump_p1")) {
-			AddPlayer (1);
+			if (!playerArr [0]) {
+				AddPlayer (1);
+				playerArr [0] = true;
+			}
 		}
 		if (Input.GetButtonDown ("Jump_p2")) {
-			AddPlayer (2);
+			if (!playerArr [1]) {
+				AddPlayer (2);
+				playerArr [1] = true;
+			}
 		}
 		if (Input.GetButtonDown ("Jump_p3")) {
-			AddPlayer (3);
+			if (!playerArr [2]) {
+				AddPlayer (3);
+				playerArr [2] = true;
+			}
 		}
 		if (Input.GetButtonDown ("Jump_p4")) {
-			AddPlayer (4);
+			if (!playerArr [3]) {
+				AddPlayer (4);
+				playerArr [3] = true;
+			}
 		}
 
-		if (Input.GetButtonDown ("Submit")) {
-			Application.LoadLevel (1);
+		if (numPlayers > 0 && Input.GetButtonDown ("Submit")) {
+			Application.LoadLevel (2);
 		}
 	}
 
 	private void AddPlayer (int playerNum)
 	{
+		startButton.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressStart");
+
 		numPlayers += 1;
 		globalObj.numPlayers = numPlayers;
 
