@@ -7,9 +7,12 @@ public class StartMenuScript : MonoBehaviour
 	int numPlayers = 0;
 	GameObject q1, q2, q3, q4, startButton;
 	GlobalObject globalObj;
+	private bool[] playerArr;
 
 	void Start ()
 	{
+		playerArr = new bool[4];
+
 		q1 = GameObject.Find ("Q1");
 		q2 = GameObject.Find ("Q2");
 		q3 = GameObject.Find ("Q3");

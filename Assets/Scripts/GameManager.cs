@@ -40,7 +40,17 @@ public class GameManager : MonoBehaviour
 			globalObj = global.GetComponent<GlobalObject> ();
 		}
 		if (globalObj != null) {
-			boardSize = globalObj.boardSize; 
+			switch (globalObj.boardSize) {
+			case 0:
+				boardSize = 5;
+				break;
+			case 1:
+				boardSize = 7;
+				break;
+			case 2:
+				boardSize = 9;
+				break;
+			}
 		}
 
 		board = new BoardSquare[boardSize + 2, boardSize + 2]; // Add 2 lanes for the outside walkway
@@ -119,8 +129,8 @@ public class GameManager : MonoBehaviour
 			player.playerJoyName = "_p1";
 			player.destRow = 0;
 			player.destCol = 0;
-			NewStage ();
 		}
+		NewStage ();
 		CreateNextBlock ();
 	}
 

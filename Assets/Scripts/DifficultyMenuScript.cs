@@ -44,6 +44,8 @@ easy,
 
 		GameObject.Find ("Size").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Seven"); 
 		GameObject.Find ("Difficulty").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Medium"); 
+		globalObj.boardSize = sizeAt;
+		globalObj.difficulty = difficultyAt;
 	}
 	
 	// Update is called once per frame
