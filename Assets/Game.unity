@@ -701,8 +701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  boardSize: 7
-  difficulty: 2
+  boardSize: 5
+  difficulty: 0
 --- !u!4 &2045379230
 Transform:
   m_ObjectHideFlags: 0
