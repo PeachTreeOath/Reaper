@@ -37,12 +37,12 @@ retry,
 	void Update ()
 	{
 
-		if (Input.GetAxis ("Horizontal_p1") > 0 && (selectAt == (int)selectBox.retry)) {
+		if (Input.GetAxis ("Horizontal_any") > 0 && (selectAt == (int)selectBox.retry)) {
 			selectAt = (int)selectBox.menu; 
 			GameObject.Find ("RetrySelect").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
 			GameObject.Find ("MenuSelect").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquareTransparent");
 			//	GameObject.Find ("MenuSelect").transform.localScale = new Vector3(2.5F, 1.5F, 0); 
-		} else if (Input.GetAxis ("Horizontal_p1") < 0 && (selectAt == (int)selectBox.menu)) {
+		} else if (Input.GetAxis ("Horizontal_any") < 0 && (selectAt == (int)selectBox.menu)) {
 			selectAt = (int)selectBox.retry;
 			GameObject.Find ("RetrySelect").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/bgSquareTransparent");
 			//	GameObject.Find ("RetrySelect").transform.localScale = new Vector3(2.5F, 1.5F, 0); 

@@ -154,11 +154,11 @@ public class GameManager : MonoBehaviour
 	void Update ()
 	{
 		// If block is moved over spawning block, move spawn block to different area
-		if (spawnBlock != null) {
+	/*	if (spawnBlock != null) {
 			if (GetBlockInPosition (spawnBlock.mRow, spawnBlock.mCol)) {
 				RetrySpawn ();
 			}
-		}
+		}*/
 	}
 
 	private void CreateBG ()
@@ -530,7 +530,7 @@ public class GameManager : MonoBehaviour
 
 	public void SpawnBlock ()
 	{
-		while (numBlocks < maxBlocks) {
+		if (numBlocks < maxBlocks) {
 			if (debugMode) {
 				Debug.Log ("SpawnBlock");
 			}
@@ -546,7 +546,10 @@ public class GameManager : MonoBehaviour
 				CheckForMatches ();
 				Destroy (spawnBlock.gameObject);
 				CreateNextBlock ();
-				break;
+			}
+			else
+			{
+				RetrySpawn ();
 			}
 		}
 		if (numBlocks >= maxBlocks) {
