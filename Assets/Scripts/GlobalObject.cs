@@ -69,6 +69,7 @@ public class GlobalObject : MonoBehaviour
 			audio.loop = false;
 			break;
 		}
+		audio.pitch = 1;
 		audio.Play ();
 	}
 

@@ -29,9 +29,10 @@ public class GameManager : MonoBehaviour
 	private float spawnSpeed;
 	private GlobalObject globalObj;
 	private AudioSource matchAudio;
-
 	private int numBlocks = 0;
 	private int maxBlocks = 0;
+
+	private bool debugMode = false;
 
 	// Use this for initialization
 	void Awake ()
@@ -530,6 +531,9 @@ public class GameManager : MonoBehaviour
 	public void SpawnBlock ()
 	{
 		while (numBlocks < maxBlocks) {
+			if (debugMode) {
+				Debug.Log ("SpawnBlock");
+			}
 
 			if (board [spawnBlock.mRow, spawnBlock.mCol].block == null) {
 				GameObject blockObj = Resources.Load<GameObject> ("Prefabs/Block");
@@ -555,6 +559,10 @@ public class GameManager : MonoBehaviour
 	private void SpawnSpawner ()
 	{
 		while (numBlocks < maxBlocks) {
+			if (debugMode) {
+				Debug.Log ("SpawnSpawner");
+			}
+			
 			int row = Random.Range (1, boardSize + 1);
 			int col = Random.Range (1, boardSize + 1);
 
@@ -570,6 +578,9 @@ public class GameManager : MonoBehaviour
 	private void RetrySpawn ()
 	{
 		while (numBlocks < maxBlocks) {
+			if (debugMode) {
+				Debug.Log ("RetrySpawn");
+			}
 			int row = Random.Range (1, boardSize + 1);
 			int col = Random.Range (1, boardSize + 1);
 
@@ -624,6 +635,10 @@ public class GameManager : MonoBehaviour
 	private void SpawnBotPlayer (int numPlayer)
 	{
 		while (true) {
+			if (debugMode) {
+				Debug.Log ("SpawnBotPlayer");
+			}
+
 			int row = Random.Range (0, boardSize + 1);
 			int col = Random.Range (0, boardSize + 1);
 			if (board [row, col].player == null) {
