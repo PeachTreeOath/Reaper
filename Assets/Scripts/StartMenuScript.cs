@@ -26,7 +26,6 @@ public class StartMenuScript : MonoBehaviour
 		q3.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressA");
 		q4.GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressA");
 
-
 		globalObj = GameObject.Find ("GlobalObject").GetComponent<GlobalObject> ();
 	}
 	
@@ -70,18 +69,18 @@ public class StartMenuScript : MonoBehaviour
 		numPlayers += 1;
 		globalObj.numPlayers = numPlayers;
 
-		switch (playerNum) {
+		switch (numPlayers) {
 		case 1:
-			globalObj.p1JoyMap = GetJoyMap ();
+			globalObj.p1JoyMap = "_p" + playerNum;
 			break;
 		case 2:
-			globalObj.p2JoyMap = GetJoyMap ();
+			globalObj.p2JoyMap = "_p" + playerNum;
 			break;
 		case 3:
-			globalObj.p3JoyMap = GetJoyMap ();
+			globalObj.p3JoyMap = "_p" + playerNum;
 			break;
 		case 4:
-			globalObj.p4JoyMap = GetJoyMap ();
+			globalObj.p4JoyMap = "_p" + playerNum;
 			break;
 		}
 
@@ -116,7 +115,7 @@ public class StartMenuScript : MonoBehaviour
 			break;
 		}
 	}
-
+	/*
 	private string GetJoyMap ()
 	{
 		switch (numPlayers) {
@@ -131,4 +130,5 @@ public class StartMenuScript : MonoBehaviour
 		}
 		return "";
 	}
+	*/
 }
