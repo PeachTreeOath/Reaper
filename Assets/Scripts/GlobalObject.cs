@@ -72,4 +72,8 @@ public class GlobalObject : MonoBehaviour
 		audio.Play ();
 	}
 
+	public void ChangeMusicSpeed(int keys)
+	{
+		audio.pitch = Mathf.Pow(1.05946f, keys);
+	}
 }

@@ -511,6 +511,7 @@ public class GameManager : MonoBehaviour
 	{
 		score += addScore;
 		int newLevel = score / 700;
+		newLevel++;
 		if (newLevel != stage) {
 			stage = newLevel;
 			NewStage ();
@@ -528,6 +529,8 @@ public class GameManager : MonoBehaviour
 		}
 		difficulty = speedDifficulty;
 		stageText.text = "" + (stage + 1);
+
+		globalObj.ChangeMusicSpeed (stage % 10);
 	}
 
 	public void SpawnBlock ()
