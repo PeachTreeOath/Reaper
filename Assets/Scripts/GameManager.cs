@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 	private SpawnBlock spawnBlock;
 	private Text stageText;
 	private Text scoreText;
-	private int stage;
+	private int stage = 1;
 	private int score;
 	public int difficulty;
 	private float defaultSpawnSpeed = 2f;
@@ -146,6 +146,7 @@ public class GameManager : MonoBehaviour
 		}
 		NewStage ();
 		CreateNextBlock ();
+		//AddScore (5300);
 	}
 
 	// Update is called once per frame
@@ -423,13 +424,6 @@ public class GameManager : MonoBehaviour
 			}
 		}
 		if (matchShape || matchColor) {
-			if (length == 5) {
-				AddScore (1000);
-			} else if (length == 4) {
-				AddScore (500);
-			} else if (length == 3) {
-				AddScore (100);
-			}
 			for (int i = 0; i < length; i++) {
 				Block newBlock = board [row, col + i].block;
 				newBlock.toDelete = true;
@@ -528,7 +522,7 @@ public class GameManager : MonoBehaviour
 			speedDifficulty = 2;
 		}
 		difficulty = speedDifficulty;
-		stageText.text = "" + (stage + 1);
+		stageText.text = "" + (stage);
 
 		globalObj.ChangeMusicSpeed (stage % 10);
 	}
