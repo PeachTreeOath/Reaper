@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviour
 				player.destCol = boardSize + 1;
 				player.transform.position = player.GetBoardPosition (player.row, player.col);
 			}
-			if (globalObj.numPlayers > 3) {
+			if (globalObj.numPlayers > 2) {
 				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 2;
 				player.playerJoyName = globalObj.p3JoyMap;
@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
 				player.destCol = 0;
 				player.transform.position = player.GetBoardPosition (player.row, player.col);
 			}
-			if (globalObj.numPlayers > 4) {
+			if (globalObj.numPlayers > 3) {
 				Player player = ((GameObject)Instantiate (playerRes, Vector2.zero, Quaternion.identity)).GetComponent<Player> ();
 				player.numPlayer = 3;
 				player.playerJoyName = globalObj.p4JoyMap;
