@@ -52,17 +52,17 @@ public class DifficultyMenuScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!axisPressed && Input.GetAxis ("Vertical_p1") < 0 && (arrowAt == (int)arrow.size)) {
+		if (!axisPressed && Input.GetAxis ("Vertical_any") < 0 && (arrowAt == (int)arrow.size)) {
 			arrowAt = (int)arrow.difficulty; 
 			GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
 			GameObject.Find ("DifficultyArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
 			axisPressed = true;
-		} else if (!axisPressed && Input.GetAxis ("Vertical_p1") > 0 && (arrowAt == (int)arrow.difficulty)) {
+		} else if (!axisPressed && Input.GetAxis ("Vertical_any") > 0 && (arrowAt == (int)arrow.difficulty)) {
 			arrowAt = (int)arrow.size;
 			GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
 			GameObject.Find ("DifficultyArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("None");
 			axisPressed = true;
-		} else if (!axisPressed && Input.GetAxis ("Horizontal_p1") < 0) { // decrease settings
+		} else if (!axisPressed && Input.GetAxis ("Horizontal_any") < 0) { // decrease settings
 			axisPressed = true;
 			if (arrowAt == (int)arrow.size) {
 				sizeAt = (int)Mathf.Clamp (sizeAt - 1, 0, (float)size.nine);
@@ -96,7 +96,7 @@ public class DifficultyMenuScript : MonoBehaviour
 				}
 			}
 
-		} else if (!axisPressed && Input.GetAxis ("Horizontal_p1") > 0) { // increase settings
+		} else if (!axisPressed && Input.GetAxis ("Horizontal_any") > 0) { // increase settings
 			axisPressed = true;
 			if (arrowAt == (int)arrow.size) {
 				sizeAt = (int)Mathf.Clamp (sizeAt + 1, 0, (float)size.nine);
@@ -131,7 +131,7 @@ public class DifficultyMenuScript : MonoBehaviour
 			}
 
 		}
-		if (Input.GetAxis ("Horizontal_p1") == 0 && Input.GetAxis ("Vertical_p1") == 0) {
+		if (Input.GetAxis ("Horizontal_any") == 0 && Input.GetAxis ("Vertical_any") == 0) {
 			axisPressed = false;
 		}
 		if (Input.GetButtonDown ("Submit")) {
