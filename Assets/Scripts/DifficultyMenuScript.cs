@@ -28,8 +28,8 @@ public class DifficultyMenuScript : MonoBehaviour
 	;
 
 	int arrowAt = 0;
-	int difficultyAt = 1;
-	int sizeAt = 1;
+	int difficultyAt = 2;
+	int sizeAt = 0;
 	GlobalObject globalObj;
 	private bool axisPressed;
 
@@ -41,10 +41,11 @@ public class DifficultyMenuScript : MonoBehaviour
 		GameObject.Find ("SizeText").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Size"); 
 		GameObject.Find ("DifficultyText").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Difficulty");
 		GameObject.Find ("StartText").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/PressStart");
-		GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
+        GameObject.Find("BackText").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/PressBack");
+        GameObject.Find ("SizeArrow").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/SelectionArrow");
 
-		GameObject.Find ("Size").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Seven"); 
-		GameObject.Find ("Difficulty").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Medium"); 
+		GameObject.Find ("Size").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Five"); 
+		GameObject.Find ("Difficulty").GetComponent<SpriteRenderer> ().sprite = Resources.Load<Sprite> ("Images/Hard"); 
 		globalObj.boardSize = sizeAt;
 		globalObj.difficulty = difficultyAt;
 	}
@@ -138,6 +139,11 @@ public class DifficultyMenuScript : MonoBehaviour
 			globalObj.PlayMusic (1);
 			Application.LoadLevel (3);
 		}
-	}
+        if (Input.GetButtonDown("Cancel"))
+        {
+            globalObj.PlayMusic(1);
+            Application.LoadLevel(1);
+        }
+    }
 
 }
